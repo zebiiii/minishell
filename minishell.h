@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:09:59 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/05/30 17:32:16 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ typedef enum s_type {
 	redirect_left,
 	double_redirect_right,
 	double_redirect_left,
+	suite,
+	simple_quote_suite,
+	quote_suite,
 }					t_type;
 typedef struct s_cmd
 {

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 17:21:19 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/28 17:32:09 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/05/30 18:42:10 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,57 @@ enum s_type get_type(char *str)
 	return (type);
 }
 
-t_cmd *create_content(char *str, int quote)
+t_cmd *create_content(char *str, int quote, int suite)
 {
 	t_cmd *cmd;
 
 	cmd = malloc(sizeof(t_cmd *));
 	cmd->content = str;
-	if (quote)
+	if (quote && !suite)
 		cmd->type = quote;
+	else if (suite)
+		cmd->type = suite;
 	else
 		cmd->type = get_type(str);
 	return (cmd);
 }
+
+// int	handle_quote(struct s_data *data, char const *str, int type, t_list **a)
+// {
+// 	int	suite;
+// 	int	next_quote;
+
+// 	suite = 0;
+// 	if (type)
+// 		next_quote = is_quote_close(&str[data.i + data.j], '\"');
+// 	else 
+// 		next_quote = is_quote_close(&str[data.i + data.j], '\'');
+// 	if (next_quote)
+// 	{
+// 		if (data.j)
+// 		{
+// 			if (data.i > 0 && str[data.i - 1] != ' ')
+// 				suite = 8;
+// 			ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0, suite)));
+// 			data.i += data.j;
+// 		}
+// 		if (data.i > 0 && str[data.i - 1] != ' ')
+// 			suite = 9 + type;
+// 		ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i + 1], next_quote - 2), 2, suite)));
+// 		data.i += next_quote;
+// 		data.j = 0;
+// 		return (1);
+// 	}
+// 	else
+// 		return (0);
+// }
 
 void	ft_split_list(char const *str, char c, t_list **a)
 {
 	struct s_data	data;
 	int	next_quote;
 	int	nfq;
+	int	suite;
 
 	next_quote = 0;
 	data.i = 0;
@@ -104,43 +137,54 @@ void	ft_split_list(char const *str, char c, t_list **a)
 		data.j = 0;
 		while (str[data.i + data.j] && str[data.i + data.j] != c)
 		{
+			suite = 0;
 			if (str[data.i + data.j] == '\"')
 			{
 				next_quote = is_quote_close(&str[data.i + data.j], '\"');
 				if (next_quote)
+				{
+					if (data.j)
 					{
-						if (data.j)
-						{
-							ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0)));
-							data.i += data.j;
-						}
-						ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i + 1], next_quote - 2), 2)));
-						data.i += next_quote;
-						data.j = 0;
-						break;
+						if (data.i > 0 && str[data.i - 1] != ' ')
+							suite = 8;
+						ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0, suite)));
+						data.i += data.j;
 					}
+					if (data.i > 0 && str[data.i - 1] != ' ')
+						suite = 10;
+					ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i + 1], next_quote - 2), 2, suite)));
+					data.i += next_quote;
+					data.j = 0;
+					break;
+				}
 			}
 			if (str[data.i + data.j] == '\'')
 			{
 				next_quote = is_quote_close(&str[data.i + data.j], '\'');
 				if (next_quote)
+				{
+					if (data.j)
 					{
-						if (data.j)
-						{
-							ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0)));
-							data.i += data.j;
-						}
-						ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i + 1], next_quote - 2), 1)));
-						data.i += next_quote;
-						data.j = 0;
-						break;
+						if (data.i > 0 && str[data.i - 1] != ' ')
+							suite = 8;
+						ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0, suite)));
+						data.i += data.j;
 					}
+					if (data.i > 0 && str[data.i - 1] != ' ')
+						suite = 9;
+					ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i + 1], next_quote - 2), 2, suite)));
+					data.i += next_quote;
+					data.j = 0;
+					break;
+				}
 			}
 			data.j++;
 		}
 		if (data.j)
 		{
-			ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0)));
+			if (data.i > 0 && str[data.i - 1] != ' ')
+				suite = 8;
+			ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data.i], data.j - 1), 0, suite)));
 			data.i += data.j;
 		}
 		else
@@ -148,4 +192,3 @@ void	ft_split_list(char const *str, char c, t_list **a)
 	}
 }
 
-//TODO: handle diff "salut"yo & "salut" yo

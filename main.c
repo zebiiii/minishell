@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:33:33 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/05/30 16:50:10 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ int main(int argc, char **argv, char **env)
         ft_lstclear(head, &del);
         res = readline("minishell> ");
         if (res == NULL)
-        {
-            ft_exit("1");
-        }
+            exit(EXIT_SUCCESS);
         add_history(res);
         res = create_space(res);
         ft_split_list(res, ' ', head);
