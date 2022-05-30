@@ -1,0 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/29 18:57:59 by mgoudin           #+#    #+#             */
+/*   Updated: 2022/05/03 19:35:43 by mgoudin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "../minishell.h"
+
+int ft_strlen(char *str)
+{
+    int i;
+    
+    i = 0;
+    if (str == NULL)
+    {
+        print_error("strlen error\n");
+        return (0);
+    }
+    while (str[i])
+        i++;
+    return (i);
+}
