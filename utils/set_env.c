@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:45:54 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/28 17:33:03 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/02 12:23:49 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void    replace_env(t_cmd *e)
             tmp = getenv(ft_strn(&((char *)e->content)[i + 1], j - 2));
             if (tmp == NULL)
             {
+                e->content = replace_len(((char *)e->content), "", j);
                 i++;
                 continue;
             }
