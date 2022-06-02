@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/05/27 18:05:56 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/02 13:31:13 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS	= 	main.c \
 			utils/create_space.c \
 			utils/quote.c \
 			utils/set_env.c \
+			utils/lst_to_argv.c \
 			libft/ft_lstadd_back.c \
 			libft/ft_lstadd_front.c \
 			libft/ft_lstclear.c \

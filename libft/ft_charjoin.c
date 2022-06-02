@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_charjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 13:56:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:27:50 by mgoudin          ###   ########.fr       */
+/*   Created: 2021/10/20 11:56:12 by mgoudin           #+#    #+#             */
+/*   Updated: 2022/06/02 13:56:19 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdlib.h>
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_charjoin(char *s1, char const c)
 {
 	char	*str;
 	int		i;
 	int		j;
 
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	str = malloc(ft_strlen(s1) + 2);
 	if (!str)
 		return (0);
 	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
 	j = 0;
-	while (s2[j])
+	str[i++] = c;
+	while (s1[j])
 	{
-		str[i] = s2[j];
-		i++;
+		str[i] = s1[j];
 		j++;
+		i++;
 	}
 	str[i] = 0;
+	if (j)
+		free(s1);
 	return (str);
 }

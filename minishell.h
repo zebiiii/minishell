@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/30 17:32:16 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:04:26 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 int		is_quote_close(const char *str, char quote);
 char	*ft_strn(char const *str, int lenght);
 void    set_env(t_list **a);
+char    **lst_to_argv(t_list **head);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif

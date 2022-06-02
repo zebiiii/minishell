@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 17:21:19 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/02 12:18:51 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/02 13:37:46 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	ft_split_list(char const *str, char c, t_list **a)
 				if (handle_quote(data, str, 1, a))
 					break;
 			if (str[data->i + data->j] == '\'')
-				if (handle_quote(data, str, 1, a))
+				if (handle_quote(data, str, 0, a))
 					break;
 			data->j++;
 		}

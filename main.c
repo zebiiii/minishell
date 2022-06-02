@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:50:10 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/02 15:20:00 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ void	print_lst(t_list *lst)
         printf("type: %d\n", (int)((t_cmd *)lst->content)->type);
 		lst = lst->next;
 	}
+}
+
+void    print_argv(char **argv)
+{
+    int i;
+
+    i = 0;
+    while(argv[i])
+    {
+        printf("%s\n",argv[i]);
+        i++;
+    }
 }
 
 void del(void*el)
@@ -59,7 +71,8 @@ int main(int argc, char **argv, char **env)
         res = create_space(res);
         ft_split_list(res, ' ', head);
         set_env(head);
-        print_lst(*head);
+        print_argv(lst_to_argv(head));
+        //print_lst(*head);
     }
     return (0);
 }
