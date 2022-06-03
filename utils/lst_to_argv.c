@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/02 15:33:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:23:09 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char    **lst_to_argv(t_list **head)
     while(lst)
     {
         res = (char *)((t_cmd *)lst->content)->content;
+        if ((int)((t_cmd *)lst->content)->type == delete)
+        {
+            lst = lst->next;
+            continue;
+        }
         lst = lst->next;
         if (lst)
             type = (int)((t_cmd *)lst->content)->type;

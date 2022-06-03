@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/02 15:20:00 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/03 16:35:40 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,13 @@ int main(int argc, char **argv, char **env)
     char    *res;
     t_list	*lst;
 	t_list	**head;
+    t_list  *symbol;
+    t_list  **head_symbol;
     
     head = &lst;
+    head_symbol = &symbol;
     signal(SIGINT, sig_handler);
-    signal(SIGQUIT, sig_handler);
+    //signal(SIGQUIT, sig_handler);
     while(42)
     {
         ft_lstclear(head, &del);
@@ -70,6 +73,7 @@ int main(int argc, char **argv, char **env)
         add_history(res);
         res = create_space(res);
         ft_split_list(res, ' ', head);
+        handle_symbol(head, head_symbol); //TODO handle env with space
         set_env(head);
         print_argv(lst_to_argv(head));
         //print_lst(*head);
@@ -79,4 +83,4 @@ int main(int argc, char **argv, char **env)
 
 // LEXER (parsing) -> execution -> pipe/redirection
 
-//TODO: handle "" and ''
+//test/test/ls -a argument

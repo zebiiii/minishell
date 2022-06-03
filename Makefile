@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/02 13:31:13 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/03 16:45:54 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRCS	= 	main.c \
 			utils/quote.c \
 			utils/set_env.c \
 			utils/lst_to_argv.c \
+			utils/handle_symbol.c \
+			utils/gnl.c \
 			libft/ft_lstadd_back.c \
 			libft/ft_lstadd_front.c \
 			libft/ft_lstclear.c \
@@ -34,7 +36,10 @@ SRCS	= 	main.c \
 			libft/ft_lstsize.c \
 			libft/ft_split.c \
 			libft/ft_strjoin.c \
-			libft/ft_strncmp.c
+			libft/ft_strncmp.c \
+			libft/ft_gnljoin.c \
+			libft/ft_calloc.c \
+			libft/ft_bzero.c
 
 OBJS	= ${SRCS:.c=.o}
 
@@ -46,10 +51,10 @@ HEADERS	=	-I$(HEADER) -I/Users/mgoudin/.brew/opt/readline/include
 CC		= gcc
 RM		= rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 %.o: %.c 
-	$(CC) -c -o $@ $< $(HEADERS)
+	$(CC) -c -o $@ $< $(HEADERS) -g
 
 all: $(NAME)
 
