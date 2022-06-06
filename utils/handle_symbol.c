@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 14:37:55 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:15:28 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int    ft_redirect_in(t_list *lst)
     arg = (char *)((t_cmd *)lst->next->content)->content;
     fd = open(arg, O_DIRECTORY | O_RDONLY | O_CREAT, 0644);
     if (fd == -1)
+        fd = open(arg, O_RDONLY | O_CREAT, 0644);
+    if (fd == -1)    
         print_error(ft_strjoin(arg, " does not exist\n"));
     ((t_cmd *)lst->content)->type = delete;
     ((t_cmd *)lst->next->content)->type = delete;
@@ -97,46 +99,60 @@ int    ft_doubleredirect_in(t_list *lst)
 
     arg = (char *)((t_cmd *)lst->next->content)->content;
     fd = ft_heredoc(arg);
-    unlink(".heredoc");
     ((t_cmd *)lst->content)->type = delete;
     ((t_cmd *)lst->next->content)->type = delete;
     return (fd);
 }
 
-void ft_pipe(t_list *lst, t_redirect tab[], int j)
+void ft_pipe(t_list *lst, t_redirect tab[], int j, int size)
 {
     int  pfd[2];
 
     if (pipe(pfd) == -1)
         print_error("pipe failed\n");
     tab[j].out = pfd[1];
-    //tab[j + 1].in = pfd[0];
+    tab[j].lst_pfd_in = pfd[1];
+    tab[j].lst_pfd_out = pfd[0];
+    if (j + 1 < size)
+    {
+        tab[j + 1].in = pfd[0];
+        tab[j + 1].st_pfd_in = pfd[1];
+        tab[j + 1].st_pfd_out = pfd[0];
+    }
 }
 
-void    handle_symbol(t_list **head, t_list **head_symbol)
+t_redirect  *handle_symbol(t_list **head, t_list **head_symbol, int len)
 {
     t_list *lst;
     int type;
     int i;
     int j;
-    t_redirect tab[1]; //get amount of cmd
-
+    t_redirect *tab;
+    
     lst = *head;
     i = 0;
     j = 0;
-    // while(tab[i])
-    // {
-    //     tab[i].out = 1;
-    //     tab[i].in = 0;
-    //     i++;
-    // }
-    tab[0].out = 1;
-    tab[0].in = 0;
+    tab = malloc(sizeof(t_redirect) * len);
+    while(i < len)
+    {
+        tab[i].out = 1;
+        tab[i].in = 0;
+        tab[i].st_pfd_in = 0;
+        tab[i].st_pfd_out = 0;
+        tab[i].lst_pfd_in = 0;
+        tab[i].lst_pfd_out = 0;
+        i++;
+    }
     while(lst)
     {
         type = (int)((t_cmd *)lst->content)->type;
         if (type == pipe_)
-            ft_pipe(lst, tab, j);
+        {
+            if ((int)((t_cmd *)lst->next->content)->type == pipe_)
+                print_error("Two followed pipe");
+            ft_pipe(lst, tab, j, len);
+            j++;
+        }
         if (type == redirect_right)
             tab[j].out = ft_redirect_out(lst); 
         if (type == redirect_left)
@@ -147,8 +163,7 @@ void    handle_symbol(t_list **head, t_list **head_symbol)
             tab[j].in = ft_doubleredirect_in(lst);
         lst = lst->next;
     }
-    printf("fd: %d\n", tab[0].in);
-    printf("fd: %d\n", tab[0].out);
+    return (tab);
 }
 
 //todo: handle no 2nd arg

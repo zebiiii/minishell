@@ -118,10 +118,12 @@ void    ft_freesplit(char **str)
                 return ;
         while (str[i])
         {
+			if (str[i])
                 free(str[i]);
-                i++;
+            i++;
         }
-        free(str);
+		if (str)
+        	free(str);
 }
 
 void	*ft_memset(void *b, int c, size_t len)
@@ -143,12 +145,14 @@ void    ft_quit_with_msg(char *str, int i, t_exec *var)
 {
 	if (i == CMDENV)
 	{
-		ft_freesplit(var->env_path);
+		//ft_freesplit(var->env_path);
+		i = 0;
 	}
 	if (i == EXE)
 	{
-		free(var->path);
-		ft_freesplit(var->env_path);
+		//free(var->path);
+		//ft_freesplit(var->env_path);
+		i = 0;
 	}
 	ft_putstr_fd(str, 2);
 	exit(EXIT_FAILURE);
@@ -219,18 +223,18 @@ void    exec(char **cmd, char **env, t_exec *var)
     if (grep_path(env, var) == -1)
         ft_quit_with_msg("Error\nPATH\n", EXE, var);
     var->env_path = ft_split(env[var->index_env], ':');
-	/*
-	printf("value var path = %s\n", var->path);
-	printf("\n--------\n");
-	printf("value of cmd = %s\n", cmd[0]);
-	printf("value of cmd = %s\n", cmd[1]);
-    */
 	if (ft_check_path(cmd, var->env_path, var) == 0)
 	{
 		var->slash_join = ft_charjoin_lst(var->env_path[var->index_path],
 				'/');
 		var->path = ft_gnljoin(var->slash_join, cmd[0]);
 		ft_freesplit(var->env_path);
+		/*int k = 0;
+		printf("%c\n", cmd[0][0]);
+		while (k < 2)
+			printf("value of cmd %s\n", cmd[k++]);
+		printf("value of var path %s\n", var->path);*/
+		
 		if (execve(var->path, cmd, env) == -1)
             ft_quit_with_msg("Error\nNo prog to execute\n", EXE, var);
 	}

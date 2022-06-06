@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 15:10:40 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:16:34 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,15 @@ int main(int argc, char **argv, char **env)
 	t_list	**head;
     t_list  *symbol;
     t_list  **head_symbol;
+    int     size;
+    int     i;
+    t_redirect *tab;
     
     head = &lst;
     head_symbol = &symbol;
     signal(SIGINT, sig_handler);
     //signal(SIGQUIT, sig_handler);
+    i = 0;
     while(42)
     {
         ft_lstclear(head, &del);
@@ -74,12 +78,15 @@ int main(int argc, char **argv, char **env)
         add_history(res);
         res = create_space(res);
         ft_split_list(res, ' ', head);
-        handle_symbol(head, head_symbol); //TODO handle env with space
+        size = get_size(head);
+        tab = handle_symbol(head, head_symbol, size); //TODO handle env with space
         set_env(head);
-        //print_argv(lst_to_argv(head));
-        print_argv(lst_to_argv(head));
-        //kangourou(lst_to_argv(head), env, 0, 1);
-        //print_lst(*head);
+        while (i < size)
+        {
+            kangourou(lst_to_argv(head), env, tab[i]);
+            i++;
+        }
+        unlink(".heredoc");
     }
     return (0);
 }
