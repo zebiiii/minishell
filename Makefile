@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/03 16:45:54 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/06 13:42:03 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ NAME	= minishell
 SRCS	= 	main.c \
 			builtin/pwd.c \
 			builtin/exit.c \
+			builtin/cd.c \
+			builtin/echo.c \
 			utils/error.c \
 			utils/ft_atoi.c \
 			utils/ft_putstr_fd.c \
@@ -25,6 +27,7 @@ SRCS	= 	main.c \
 			utils/lst_to_argv.c \
 			utils/handle_symbol.c \
 			utils/gnl.c \
+			exec/kangourou.c \
 			libft/ft_lstadd_back.c \
 			libft/ft_lstadd_front.c \
 			libft/ft_lstclear.c \

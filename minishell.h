@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/03 16:23:11 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 13:38:42 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h> 
+
+# define CMD 1
+# define CMDENV 2
+# define EXE 3
 
 typedef struct s_list
 {
@@ -39,6 +43,14 @@ typedef enum s_type {
 	quote_suite,
 	delete,
 }					t_type;
+typedef struct	s_exec
+{
+	int		index_env;
+	int		index_path;
+	char	**env_path;
+	char	*path;
+	char	*slash_join;
+}	t_exec;
 typedef struct s_cmd
 {
 	void			*content;
@@ -77,5 +89,8 @@ char	*get_next_line(int fd);
 char	*ft_gnljoin(char *s1, char *s2);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
+void	kangourou(char **cmd, char **env, int stdin, int stdout);
+int		cd(char **argv);
+int		echo(int argc, char **argv);
 
 #endif

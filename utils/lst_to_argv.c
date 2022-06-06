@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/03 13:23:09 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:00:52 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,19 @@ char    **lst_to_argv(t_list **head)
             lst = lst->next;
             continue;
         }
+        if ((int)((t_cmd *)lst->content)->type == pipe_)
+        {
+            ((t_cmd *)lst->content)->type = delete;
+            break;
+        }
+        ((t_cmd *)lst->content)->type = delete;
         lst = lst->next;
         if (lst)
             type = (int)((t_cmd *)lst->content)->type;
         while(lst && (type == 8 || type == 9 || type == 10))
         {
             res = ft_strjoin(res, (char *)((t_cmd *)lst->content)->content);
+            ((t_cmd *)lst->content)->type = delete;
             lst = lst->next;
             if (lst)
                 type = (int)((t_cmd *)lst->content)->type;

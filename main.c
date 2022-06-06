@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/03 16:35:40 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 15:10:40 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ void    print_argv(char **argv)
     i = 0;
     while(argv[i])
     {
-        printf("%s\n",argv[i]);
+        printf("%s ",argv[i]);
         i++;
     }
+    printf("\n");
 }
 
 void del(void*el)
@@ -75,7 +76,9 @@ int main(int argc, char **argv, char **env)
         ft_split_list(res, ' ', head);
         handle_symbol(head, head_symbol); //TODO handle env with space
         set_env(head);
+        //print_argv(lst_to_argv(head));
         print_argv(lst_to_argv(head));
+        //kangourou(lst_to_argv(head), env, 0, 1);
         //print_lst(*head);
     }
     return (0);

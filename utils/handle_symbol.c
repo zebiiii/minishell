@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/03 16:53:44 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 14:37:55 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,16 @@ int    ft_doubleredirect_in(t_list *lst)
     return (fd);
 }
 
+void ft_pipe(t_list *lst, t_redirect tab[], int j)
+{
+    int  pfd[2];
+
+    if (pipe(pfd) == -1)
+        print_error("pipe failed\n");
+    tab[j].out = pfd[1];
+    //tab[j + 1].in = pfd[0];
+}
+
 void    handle_symbol(t_list **head, t_list **head_symbol)
 {
     t_list *lst;
@@ -114,12 +124,19 @@ void    handle_symbol(t_list **head, t_list **head_symbol)
     lst = *head;
     i = 0;
     j = 0;
+    // while(tab[i])
+    // {
+    //     tab[i].out = 1;
+    //     tab[i].in = 0;
+    //     i++;
+    // }
     tab[0].out = 1;
     tab[0].in = 0;
     while(lst)
     {
         type = (int)((t_cmd *)lst->content)->type;
-        //if (type == pipe_)
+        if (type == pipe_)
+            ft_pipe(lst, tab, j);
         if (type == redirect_right)
             tab[j].out = ft_redirect_out(lst); 
         if (type == redirect_left)
@@ -128,7 +145,6 @@ void    handle_symbol(t_list **head, t_list **head_symbol)
             tab[j].out = ft_doubleredirect_out(lst); 
         if (type == double_redirect_left)
             tab[j].in = ft_doubleredirect_in(lst);
-        i++;
         lst = lst->next;
     }
     printf("fd: %d\n", tab[0].in);
