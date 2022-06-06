@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 17:12:16 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 18:20:59 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_redirect
 	int st_pfd_out;
 	int lst_pfd_in;
 	int lst_pfd_out;
+	char *str;
 }					t_redirect;
 int     ft_pwd();
 int		ft_exit(char *status);
@@ -93,7 +94,7 @@ char	*get_next_line(int fd);
 char	*ft_gnljoin(char *s1, char *s2);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
-void	kangourou(char **cmd, char **env, int stdin, int stdout);
+void	kangourou(char **cmd, char **env, t_redirect *tab);
 int		cd(char **argv);
 int		echo(int argc, char **argv);
 int		get_size(t_list **head);

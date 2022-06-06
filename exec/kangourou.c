@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 13:36:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 13:42:34 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/06 18:25:45 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,11 +179,15 @@ char	*ft_charjoin_lst(char *s1, char c)
 	return (pt);
 }
 
-void	ft_dup(int stdin, int stdout, t_exec *var)
+void	ft_dup(t_redirect *tab, t_exec *var)
 {
-	if (dup2(stdin, STDIN_FILENO) == -1)
+	if (tab->lst_pfd_in != 0 && tab->lst_pfd_out != 0)
+		close(tab->st_pfd_in);
+	if (tab->st_pfd_in != 0 && tab->st_pfd_out != 0)
+		close(tab->lst_pfd_out);
+	if (dup2(tab->in, STDIN_FILENO) == -1)
 		ft_quit_with_msg("", 0, var);
-	if (dup2(stdout, STDOUT_FILENO) == -1)
+	if (dup2(tab->out, STDOUT_FILENO) == -1)
 		ft_quit_with_msg("", 0, var);
 }
 
@@ -229,12 +233,6 @@ void    exec(char **cmd, char **env, t_exec *var)
 				'/');
 		var->path = ft_gnljoin(var->slash_join, cmd[0]);
 		ft_freesplit(var->env_path);
-		/*int k = 0;
-		printf("%c\n", cmd[0][0]);
-		while (k < 2)
-			printf("value of cmd %s\n", cmd[k++]);
-		printf("value of var path %s\n", var->path);*/
-		
 		if (execve(var->path, cmd, env) == -1)
             ft_quit_with_msg("Error\nNo prog to execute\n", EXE, var);
 	}
@@ -260,7 +258,7 @@ int ft_check_cmd(char **cmd, char **env, t_exec *var)
 	return (0);
 }
 
-void kangourou(char **cmd, char **env, int stdin, int stdout)
+void kangourou(char **cmd, char **env, t_redirect *tab)
 {
     int pid;
     int cas;
@@ -274,17 +272,19 @@ void kangourou(char **cmd, char **env, int stdin, int stdout)
 		ft_quit_with_msg("Error\nFork\n", CMDENV, &var);
     if (pid == 0)
     {
-        ft_dup(stdin, stdout, &var);
+        ft_dup(tab, &var);
         if (cas == 1)
 			exec_case(cmd, env, &var);
 		else
 			exec(cmd, env, &var);
     }
-    else
-    {
-	    waitpid(pid, NULL, 0);
-		return ;
-	}
+    // else
+    // {
+	// 	/*if (tab->in >= 0)
+	// 		close(tab->in);*/
+	//     waitpid(pid, NULL, 0);
+	// 	return ;
+	// }
 }
 
 /*int main(int argc, char **argv, char **env)
