@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 13:36:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 18:25:45 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/07 16:49:27 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ char	*ft_charjoin_lst(char *s1, char c)
 void	ft_dup(t_redirect *tab, t_exec *var)
 {
 	if (tab->lst_pfd_in != 0 && tab->lst_pfd_out != 0)
-		close(tab->st_pfd_in);
+		close(tab->lst_pfd_out);
 	if (tab->st_pfd_in != 0 && tab->st_pfd_out != 0)
 		close(tab->lst_pfd_out);
 	if (dup2(tab->in, STDIN_FILENO) == -1)
@@ -233,11 +233,13 @@ void    exec(char **cmd, char **env, t_exec *var)
 				'/');
 		var->path = ft_gnljoin(var->slash_join, cmd[0]);
 		ft_freesplit(var->env_path);
+		printf("%s\n", var->path);
+		printf("%s | %s\n", cmd[0], env[0]);
 		if (execve(var->path, cmd, env) == -1)
             ft_quit_with_msg("Error\nNo prog to execute\n", EXE, var);
 	}
-		else
-			ft_quit_with_msg("Error\nCommand not found\n", CMDENV, var);
+	else
+		ft_quit_with_msg("Error\nCommand not found\n", CMDENV, var);
 }
 
 void    exec_case(char **cmd, char **env, t_exec *var)
@@ -277,14 +279,16 @@ void kangourou(char **cmd, char **env, t_redirect *tab)
 			exec_case(cmd, env, &var);
 		else
 			exec(cmd, env, &var);
+		exit(1);
     }
-    // else
-    // {
-	// 	/*if (tab->in >= 0)
-	// 		close(tab->in);*/
-	//     waitpid(pid, NULL, 0);
-	// 	return ;
-	// }
+    else
+    {
+		if (tab->st_pfd_in != 0)
+			close(tab->st_pfd_in);
+		if (tab->lst_pfd_in != 0)
+		 	close(tab->lst_pfd_in);
+	    waitpid(pid, NULL, 0);
+	}
 }
 
 /*int main(int argc, char **argv, char **env)

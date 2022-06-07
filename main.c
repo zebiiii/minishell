@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 18:21:12 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/07 16:35:58 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,15 @@ int main(int argc, char **argv, char **env)
     signal(SIGINT, sig_handler);
     //signal(SIGQUIT, sig_handler);
     i = 0;
+    int pid;
     while(42)
     {
         ft_lstclear(head, &del);
         res = readline("minishell> ");
         if (res == NULL)
-            exit(EXIT_SUCCESS);
+            exit(1);
+        if (ft_strlen(res) < 1)
+            continue;
         add_history(res);
         res = create_space(res);
         ft_split_list(res, ' ', head);
@@ -83,12 +86,14 @@ int main(int argc, char **argv, char **env)
         set_env(head);
         while (i < size)
         {
-            printf("in: %d, out: %d, first pipe in: %d, first pipe out: %d, lst pipe in: %d, lst pipe out: %d\n", tab[i].in, tab[i].out, tab[i].st_pfd_in, tab[i].st_pfd_out, tab[i].lst_pfd_in, tab[i].lst_pfd_out);
+            //printf("in: %d, out: %d\n", tab[i].in, tab[i].out);
+            printf("in: %d, out: %d, pipe1 in: %d, pipe1 out: %d, pipe2 in: %d, pipe2 out: %d\n", tab[i].in, tab[i].out, tab[i].st_pfd_in, tab[i].st_pfd_out, tab[i].lst_pfd_in, tab[i].lst_pfd_out);
             kangourou(lst_to_argv(head), env, &tab[i]);
             //tab[i].str = lst_to_argv(head);
             i++;
         }
         unlink(".heredoc");
+        i = 0;
     }
     return (0);
 }
