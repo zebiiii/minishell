@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 17:21:19 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/02 13:37:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:09:48 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,6 @@ void	ft_split_list(char const *str, char c, t_list **a)
 		else
 			data->i++;
 	}
+	free(data);
 }
 

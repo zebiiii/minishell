@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 14:00:52 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:04:34 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char    **lst_to_argv(t_list **head)
 
     i = 0;
     lst = *head;
-    argv = malloc(sizeof(char *) * count_arg(head));
+    argv = malloc(sizeof(char *) * count_arg(head) + 1);
     while(lst)
     {
         res = (char *)((t_cmd *)lst->content)->content;
@@ -68,5 +68,6 @@ char    **lst_to_argv(t_list **head)
         }
         argv[i++] = res;
     }
+    argv[i] = 0;
     return (argv);
 }

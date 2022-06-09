@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/07 16:35:58 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:12:31 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,43 @@ void del(void*el)
     free(el);
 }
 
-void    sig_handler(int signum)
+// void    sig_handler(int signum)
+// {
+//     if (signum == SIGINT)
+//     {
+//         printf("\n");
+//         rl_on_new_line();
+//         rl_replace_line("", 0);
+//         rl_redisplay();
+//     }
+// }
+
+void    sig_handler(int signo)
 {
-    if (signum == SIGINT)
+	if (signo == SIGINT)
     {
         printf("\n");
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+        if (g_global.qlf == 0)
+        {
+            rl_on_new_line();
+            rl_replace_line("", 0);
+            rl_redisplay();
+        }
     }
+}
+
+int is_empty(t_list *lst)
+{
+    int type;
+
+    while (lst)
+	{
+        type = (int)((t_cmd *)lst->content)->type;
+        if (type != delete && type != pipe_)
+            return (0);
+		lst = lst->next;
+	}
+    return (1);
 }
 
 int main(int argc, char **argv, char **env)
@@ -58,21 +86,21 @@ int main(int argc, char **argv, char **env)
     char    *res;
     t_list	*lst;
 	t_list	**head;
-    t_list  *symbol;
-    t_list  **head_symbol;
     int     size;
     int     i;
     t_redirect *tab;
-    
-    head = &lst;
-    head_symbol = &symbol;
-    signal(SIGINT, sig_handler);
-    //signal(SIGQUIT, sig_handler);
-    i = 0;
     int pid;
+    int status;
+    
+    status = 0;
+    head = &lst;
+    signal(SIGINT, sig_handler);
+    signal(SIGQUIT, SIG_IGN);
     while(42)
     {
+        i = 0;
         ft_lstclear(head, &del);
+        g_global.qlf = 0;
         res = readline("minishell> ");
         if (res == NULL)
             exit(1);
@@ -82,18 +110,21 @@ int main(int argc, char **argv, char **env)
         res = create_space(res);
         ft_split_list(res, ' ', head);
         size = get_size(head);
-        tab = handle_symbol(head, head_symbol, size); //TODO handle env with space
+        tab = handle_symbol(head, size);
+        if (!tab)
+            continue;
         set_env(head);
+        if (is_empty(*head))
+            continue;
         while (i < size)
         {
-            //printf("in: %d, out: %d\n", tab[i].in, tab[i].out);
-            printf("in: %d, out: %d, pipe1 in: %d, pipe1 out: %d, pipe2 in: %d, pipe2 out: %d\n", tab[i].in, tab[i].out, tab[i].st_pfd_in, tab[i].st_pfd_out, tab[i].lst_pfd_in, tab[i].lst_pfd_out);
-            kangourou(lst_to_argv(head), env, &tab[i]);
-            //tab[i].str = lst_to_argv(head);
+            pid = kangourou(lst_to_argv(head), env, &tab[i]);
             i++;
         }
         unlink(".heredoc");
-        i = 0;
+        waitpid(pid, &status, 0);
+        while (wait(NULL) > 0)
+            ;
     }
     return (0);
 }

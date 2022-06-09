@@ -144,16 +144,9 @@ void	*ft_memset(void *b, int c, size_t len)
 void    ft_quit_with_msg(char *str, int i, t_exec *var)
 {
 	if (i == CMDENV)
-	{
-		//ft_freesplit(var->env_path);
 		i = 0;
-	}
 	if (i == EXE)
-	{
-		//free(var->path);
-		//ft_freesplit(var->env_path);
 		i = 0;
-	}
 	ft_putstr_fd(str, 2);
 	exit(EXIT_FAILURE);
 }
@@ -183,8 +176,6 @@ void	ft_dup(t_redirect *tab, t_exec *var)
 {
 	if (tab->lst_pfd_in != 0 && tab->lst_pfd_out != 0)
 		close(tab->lst_pfd_out);
-	if (tab->st_pfd_in != 0 && tab->st_pfd_out != 0)
-		close(tab->lst_pfd_out);
 	if (dup2(tab->in, STDIN_FILENO) == -1)
 		ft_quit_with_msg("", 0, var);
 	if (dup2(tab->out, STDOUT_FILENO) == -1)
@@ -200,6 +191,7 @@ int    grep_path(char **env, t_exec *var)
         else
             var->index_env++;
     }
+	ft_putstr_fd(env[var->index_env], 2);
     return (-1);
 }
 
@@ -221,8 +213,20 @@ int ft_check_path(char **cmd, char **env, t_exec *var)
 	return (access_return);
 }
 
-void    exec(char **cmd, char **env, t_exec *var)
+void	ft_putstr_2(char **arg, char *msg)
 {
+	int i = 0;
+	while (arg[i])
+	{
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd(arg[i++], 2);
+		ft_putstr_fd("\n", 2);
+	}
+}
+
+void    exec(char **cmd, char **env, t_exec *var, t_redirect *tab)
+{
+	var->path = NULL;
     var->index_env = 0;
     if (grep_path(env, var) == -1)
         ft_quit_with_msg("Error\nPATH\n", EXE, var);
@@ -233,8 +237,6 @@ void    exec(char **cmd, char **env, t_exec *var)
 				'/');
 		var->path = ft_gnljoin(var->slash_join, cmd[0]);
 		ft_freesplit(var->env_path);
-		printf("%s\n", var->path);
-		printf("%s | %s\n", cmd[0], env[0]);
 		if (execve(var->path, cmd, env) == -1)
             ft_quit_with_msg("Error\nNo prog to execute\n", EXE, var);
 	}
@@ -260,7 +262,19 @@ int ft_check_cmd(char **cmd, char **env, t_exec *var)
 	return (0);
 }
 
-void kangourou(char **cmd, char **env, t_redirect *tab)
+void	ft_close(t_redirect *tab)
+{
+	if (tab->lst_pfd_in != 0)
+		close(tab->lst_pfd_in);
+	if (tab->st_pfd_in != 0)
+		close(tab->st_pfd_in);
+	if (tab->in)
+		close(tab->in);
+	if (tab->out != 1)
+		close(tab->out);
+}
+
+int kangourou(char **cmd, char **env, t_redirect *tab)
 {
     int pid;
     int cas;
@@ -278,21 +292,12 @@ void kangourou(char **cmd, char **env, t_redirect *tab)
         if (cas == 1)
 			exec_case(cmd, env, &var);
 		else
-			exec(cmd, env, &var);
-		exit(1);
+			exec(cmd, env, &var, tab);
     }
     else
     {
-		if (tab->st_pfd_in != 0)
-			close(tab->st_pfd_in);
-		if (tab->lst_pfd_in != 0)
-		 	close(tab->lst_pfd_in);
-	    waitpid(pid, NULL, 0);
+		g_global.qlf = 1;
+		ft_close(tab);
 	}
+	return (pid);
 }
-
-/*int main(int argc, char **argv, char **env)
-{
-	kangourou(argv + 1, env, 0, 1);
-	return (0);
-}*/

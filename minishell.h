@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/06 18:20:59 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:12:52 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ typedef struct s_redirect
 	int lst_pfd_out;
 	char *str;
 }					t_redirect;
+typedef struct s_g
+{
+	int qlf;
+}					t_g;
+
+t_g		g_global;
+
 int     ft_pwd();
 int		ft_exit(char *status);
 int     ft_putstr_fd(char *str, int fd);
@@ -89,14 +96,15 @@ char	*ft_strn(char const *str, int lenght);
 void    set_env(t_list **a);
 char    **lst_to_argv(t_list **head);
 char	*ft_strjoin(char *s1, char *s2);
-t_redirect    *handle_symbol(t_list **head, t_list **head_symbol, int len);
+t_redirect    *handle_symbol(t_list **head, int len);
 char	*get_next_line(int fd);
 char	*ft_gnljoin(char *s1, char *s2);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
-void	kangourou(char **cmd, char **env, t_redirect *tab);
+int	kangourou(char **cmd, char **env, t_redirect *tab);
 int		cd(char **argv);
 int		echo(int argc, char **argv);
 int		get_size(t_list **head);
+char    *replace_len(char *str, char *word, int len);
 
 #endif
