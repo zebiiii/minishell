@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:56:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/02 14:27:50 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:21:02 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	str = calloc(ft_strlen(s1) + ft_strlen(s2) + 1, 1);
 	if (!str)
 		return (0);
 	i = 0;

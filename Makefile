@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/06 15:41:34 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/10 19:28:27 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRCS	= 	main.c \
 			libft/ft_strncmp.c \
 			libft/ft_gnljoin.c \
 			libft/ft_calloc.c \
-			libft/ft_bzero.c
+			libft/ft_bzero.c \
+			libft/ft_itoa.c
 
 OBJS	= ${SRCS:.c=.o}
 

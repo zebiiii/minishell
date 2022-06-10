@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/09 14:45:56 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 19:32:24 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,31 @@ int	ft_heredoc(char *limiter)
     if (fd < 0)
     {
         print_error("Error\nFile Descriptor\n");
-        return (0);
+        return (-1);
     }
+    heredoc = NULL;
+    ft_putstr_fd("> ", 1);
     line = get_next_line(0);
+    if (line == NULL)
+    {
+        rl_redisplay();
+        fd = write_heredoc("", fd);
+        return (fd);
+    }
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (fd);
-	while (ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
+	while (line && ft_strncmp(line, limiter, ft_strlen(limiter)) != 0)
 	{
 		if (!(ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
 			heredoc = ft_gnljoin(heredoc, line);
+        ft_putstr_fd("> ", 1);
 		line = get_next_line(0);
+        if (line == NULL)
+        {
+            rl_redisplay();
+            fd = write_heredoc("", fd);
+            return (fd);
+        }
 	}
     fd = write_heredoc(heredoc, fd);
     return (fd);
@@ -64,6 +79,7 @@ char    *replace_env_link(char *str)
     int i;
     int j;
     char *tmp;
+    char *word;
 
     i = 0;
     j = 0;
@@ -74,7 +90,11 @@ char    *replace_env_link(char *str)
             j = 1;
             while(str[i + j] && str[i + j] != ' ' && str[i + j] != '$')
                 j++;
-            tmp = getenv(ft_strn(&str[i + 1], j - 2));
+            word = ft_strn(&str[i + 1], j - 2);
+            if (!ft_strncmp(word, "?", ft_strlen(word)))
+                tmp = ft_itoa(g_global.exit_status);
+            else
+                tmp = getenv(word);
             if (tmp == 0)
             {
                 str = replace_len(str, "", j);
@@ -233,12 +253,17 @@ int    ft_doubleredirect_in(t_list *lst)
     int fd;
     char *arg;
 
-    arg = (char *)((t_cmd *)lst->next->content)->content;
+    ((t_cmd *)lst->content)->type = delete;
+    lst = lst->next;
+    if (!lst)
+        return (0);
+    arg = (char *)((t_cmd *)lst->content)->content;
+    if (!arg)
+        return (0);
+    ((t_cmd *)lst->content)->type = delete;
     fd = ft_heredoc(arg);
     if (!fd)
         return (0);
-    ((t_cmd *)lst->content)->type = delete;
-    ((t_cmd *)lst->next->content)->type = delete;
     return (fd);
 }
 
@@ -274,7 +299,7 @@ t_redirect  *handle_symbol(t_list **head, int len)
     lst = *head;
     i = 0;
     j = 0;
-    tab = malloc(sizeof(t_redirect) * len);
+    tab = calloc(len, sizeof(t_redirect));
     while(i < len)
     {
         tab[i].out = 1;
@@ -325,7 +350,7 @@ t_redirect  *handle_symbol(t_list **head, int len)
         if (type == double_redirect_left)
         {
             tab[j].in = ft_doubleredirect_in(lst);
-            if (tab[j].in == 0)
+            if (tab[j].in == -1)
                 return (NULL);
         }
         lst = lst->next;

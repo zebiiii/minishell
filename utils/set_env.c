@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:45:54 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/08 13:43:00 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 19:29:01 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char    *replace_len(char *str, char *word, int len)
     k = 0;
     j = 0;
     length = ft_strlen(word) + ft_strlen(str);
-    res = malloc(length - len + 1);
+    res = calloc(length - len + 1, 1);
     while(str[i])
     {
         if (str[i] == '$' && !j)
@@ -52,6 +52,7 @@ void    replace_env(t_cmd *e)
     int i;
     int j;
     char *tmp;
+    char *word;
 
     i = 0;
     j = 0;
@@ -62,7 +63,11 @@ void    replace_env(t_cmd *e)
             j = 1;
             while(((char *)e->content)[i + j] && ((char *)e->content)[i + j] != ' ' && ((char *)e->content)[i + j] != '$')
                 j++;
-            tmp = getenv(ft_strn(&((char *)e->content)[i + 1], j - 2));
+            word = ft_strn(&((char *)e->content)[i + 1], j - 2);
+            if (!ft_strncmp(word, "?", ft_strlen(word)))
+                tmp = ft_itoa(g_global.exit_status);
+            else
+                tmp = getenv(word);
             if (tmp == NULL)
             {
                 e->content = replace_len(((char *)e->content), "", j);

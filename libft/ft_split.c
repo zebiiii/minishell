@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 17:21:19 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/08 19:09:48 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 14:03:14 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strn(char const *str, int lenght)
 	char	*value;
 	int		i;
 
-	value = malloc(lenght + 1);
+	value = calloc(lenght + 1, 1);
 	if (!value)
 		return (0);
 	i = 0;
@@ -82,7 +82,7 @@ t_cmd *create_content(char *str, int quote, int suite)
 {
 	t_cmd *cmd;
 
-	cmd = malloc(sizeof(t_cmd *));
+	cmd = calloc(1, sizeof(t_cmd *));
 	cmd->content = str;
 	if (quote && !suite)
 		cmd->type = quote;
@@ -114,7 +114,7 @@ int	handle_quote(struct s_data *data, char const *str, int type, t_list **a)
 		}
 		if (data->i > 0 && str[data->i - 1] != ' ')
 			suite = 9 + type;
-		ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data->i + 1], next_quote - 2), 2, suite)));
+		ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data->i + 1], next_quote - 2), type + 1, suite)));
 		data->i += next_quote;
 		data->j = 0;
 		return (1);
@@ -130,7 +130,7 @@ void	ft_split_list(char const *str, char c, t_list **a)
 	int	nfq;
 
 	next_quote = 0;
-	data = malloc(sizeof(*data));
+	data = calloc(1, sizeof(*data));
 	data->i = 0;
 	while (str[data->i])
 	{

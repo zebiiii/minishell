@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:05:57 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/25 19:36:47 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:21:10 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char *create_space(char *str)
     int j;
     int stop_cpy;
 
-    res = malloc(count_char(str) + 1);
+    res = calloc(count_char(str) + 1, 1);
     i = 0;
     j = 0;
     stop_cpy = 0;

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/09 15:12:31 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 19:12:55 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ void	print_lst(t_list *lst)
         printf("type: %d\n", (int)((t_cmd *)lst->content)->type);
 		lst = lst->next;
 	}
+}
+
+void	tty_hide_ctrl(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void    print_argv(char **argv)
@@ -41,17 +50,6 @@ void del(void*el)
     free(cmd->content);
     free(el);
 }
-
-// void    sig_handler(int signum)
-// {
-//     if (signum == SIGINT)
-//     {
-//         printf("\n");
-//         rl_on_new_line();
-//         rl_replace_line("", 0);
-//         rl_redisplay();
-//     }
-// }
 
 void    sig_handler(int signo)
 {
@@ -91,11 +89,14 @@ int main(int argc, char **argv, char **env)
     t_redirect *tab;
     int pid;
     int status;
+    char **arg;
     
     status = 0;
     head = &lst;
+    g_global.exit_status = 0;
     signal(SIGINT, sig_handler);
     signal(SIGQUIT, SIG_IGN);
+    //tty_hide_ctrl();
     while(42)
     {
         i = 0;
@@ -114,11 +115,11 @@ int main(int argc, char **argv, char **env)
         if (!tab)
             continue;
         set_env(head);
-        if (is_empty(*head))
-            continue;
         while (i < size)
         {
-            pid = kangourou(lst_to_argv(head), env, &tab[i]);
+            arg = lst_to_argv(head);
+            if (arg[0] != 0)
+                pid = kangourou(arg, env, &tab[i]);
             i++;
         }
         unlink(".heredoc");

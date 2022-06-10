@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/09 15:04:34 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:56:13 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int count_arg(t_list **head)
     while (lst)
 	{
         type = (int)((t_cmd *)lst->content)->type;
-        if (type != 8 && type != 10 && type != 11)
+        if (type == 3)
+            break;
+        if (type != 8 && type != 9 && type != 10 && type != 11)
             i++;
 		lst = lst->next;
 	}
@@ -40,7 +42,7 @@ char    **lst_to_argv(t_list **head)
 
     i = 0;
     lst = *head;
-    argv = malloc(sizeof(char *) * count_arg(head) + 1);
+    argv = calloc(count_arg(head) + 1, sizeof(char *));
     while(lst)
     {
         res = (char *)((t_cmd *)lst->content)->content;

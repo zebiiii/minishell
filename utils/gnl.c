@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:29:36 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/03 16:11:59 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 17:33:54 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*extraction(char *stock)
 	if (stock[0] == '\0')
 		return (NULL);
 	k = lenbeforen(stock);
-	res = malloc(sizeof(char *) * k + 1);
+	res = calloc(k + 1, sizeof(char *));
 	j = 0;
 	while (j < k)
 	{

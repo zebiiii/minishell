@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/09 15:12:52 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 19:28:15 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h> 
+# include <termios.h>
 
 # define CMD 1
 # define CMDENV 2
@@ -69,6 +70,7 @@ typedef struct s_redirect
 typedef struct s_g
 {
 	int qlf;
+	int exit_status;
 }					t_g;
 
 t_g		g_global;
@@ -106,5 +108,6 @@ int		cd(char **argv);
 int		echo(int argc, char **argv);
 int		get_size(t_list **head);
 char    *replace_len(char *str, char *word, int len);
+char	*ft_itoa(int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:04:41 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/03 16:04:55 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/10 17:24:43 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_gnljoin(char *s1, char *s2)
 		s1 = ft_calloc(1, 1);
 	i = 0;
 	j = 0;
-	pt = malloc (sizeof (char *) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	pt = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof (char *));
 	if (pt == NULL)
 		return (NULL);
 	while (s1[i])
@@ -36,6 +36,6 @@ char	*ft_gnljoin(char *s1, char *s2)
 		j++;
 	}
 	pt[i + j] = '\0';
-	free(s1);
+	//free(s1);
 	return (pt);
 }
