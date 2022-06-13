@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/10 19:28:15 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/13 18:23:43 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ typedef struct s_g
 {
 	int qlf;
 	int exit_status;
+	int	heredoc;
+	int	listener;
+	int	in_heredoc;
 }					t_g;
 
 t_g		g_global;

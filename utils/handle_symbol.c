@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/10 19:32:24 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/13 18:24:53 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,22 @@ int	ft_heredoc(char *limiter)
 	char	*line;
     int     fd;
     char    *heredoc;
+    int     listener;
 
+    g_global.in_heredoc = 1;
     fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0644);
     if (fd < 0)
     {
         print_error("Error\nFile Descriptor\n");
+        g_global.exit_status = 1;
         return (-1);
     }
     heredoc = NULL;
     ft_putstr_fd("> ", 1);
-    line = get_next_line(0);
-    if (line == NULL)
+    listener = dup(0);
+    g_global.listener = listener;
+    line = get_next_line(listener);
+    if (line == NULL || g_global.heredoc)
     {
         rl_redisplay();
         fd = write_heredoc("", fd);
@@ -62,8 +67,8 @@ int	ft_heredoc(char *limiter)
 		if (!(ft_strncmp(line, limiter, ft_strlen(limiter)) == 0))
 			heredoc = ft_gnljoin(heredoc, line);
         ft_putstr_fd("> ", 1);
-		line = get_next_line(0);
-        if (line == NULL)
+		line = get_next_line(listener);
+        if (line == NULL || g_global.heredoc)
         {
             rl_redisplay();
             fd = write_heredoc("", fd);
@@ -71,6 +76,7 @@ int	ft_heredoc(char *limiter)
         }
 	}
     fd = write_heredoc(heredoc, fd);
+    g_global.in_heredoc = 0;
     return (fd);
 }
 
@@ -104,6 +110,7 @@ char    *replace_env_link(char *str)
             if (is_space(tmp))
             {
                 print_error("ambiguous redirect\n");
+                g_global.exit_status = 1;
                 return (0);
             }
             str = replace_len(str, tmp, j);
@@ -149,12 +156,14 @@ int    ft_redirect_out(t_list *lst)
     if (fd > 0)
     {
         print_error(ft_strjoin(arg, " is a directory\n"));
+        g_global.exit_status = 1;
         return (0);
     }
     fd = open(arg, O_WRONLY | O_CREAT, 0644);
     if (fd == -1)
     {
-        print_error(ft_strjoin(arg, " does not exist\n"));
+        print_error(ft_strjoin(arg, ": No such file or directory\n"));
+        g_global.exit_status = 1;
         return (0);
     }
     return (fd);
@@ -196,7 +205,8 @@ int    ft_redirect_in(t_list *lst)
         fd = open(arg, O_RDONLY, 0644);
     if (fd == -1)    
     {
-        print_error(ft_strjoin(arg, " does not exist\n"));
+        print_error(ft_strjoin(arg, ": No such file or directory\n"));
+        g_global.exit_status = 1;
         return (0);
     }
     return (fd);
@@ -237,12 +247,14 @@ int    ft_doubleredirect_out(t_list *lst)
     if (fd > 0)
     {
         print_error(ft_strjoin(arg, " is a directory\n"));
+        g_global.exit_status = 1;
         return (0);
     }
     fd = open(arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd == -1)
     {
-        print_error(ft_strjoin(arg, " does not exist\n"));
+        print_error(ft_strjoin(arg, ": No such file or directory\n"));
+        g_global.exit_status = 1;
         return (0);
     }
     return (fd);
@@ -274,6 +286,7 @@ int ft_pipe(t_list *lst, t_redirect tab[], int j, int size)
     if (pipe(pfd) == -1)
     {
         print_error("pipe failed\n");
+        g_global.exit_status = 1;
         return (0);
     }
     tab[j].out = pfd[1];
@@ -318,11 +331,13 @@ t_redirect  *handle_symbol(t_list **head, int len)
             if (!(lst->next))
             {
                 print_error("Nothing after last pipe\n");
+                g_global.exit_status = 2;
                 return (NULL);
             }
             if ((int)((t_cmd *)lst->next->content)->type == pipe_)
             {
                 print_error("Two followed pipe\n");
+                g_global.exit_status = 2;
                 return (NULL);
             }
             if (!ft_pipe(lst, tab, j, len))
@@ -357,5 +372,3 @@ t_redirect  *handle_symbol(t_list **head, int len)
     }
     return (tab);
 }
-
-//todo: handle no 2nd arg
