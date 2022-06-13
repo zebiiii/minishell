@@ -141,14 +141,11 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (dst);
 }
 
-void    ft_quit_with_msg(char *str, int i, t_exec *var)
+void    ft_quit_with_msg(char *s1, char *s2, int exit_status, t_exec *var)
 {
-	if (i == CMDENV)
-		i = 0;
-	if (i == EXE)
-		i = 0;
-	ft_putstr_fd(str, 2);
-	exit(EXIT_FAILURE);
+	ft_putstr_fd(s1, 2);
+	ft_putstr_fd(s2, 2);
+	exit(exit_status);
 }
 
 char	*ft_charjoin_lst(char *s1, char c)
@@ -177,9 +174,9 @@ void	ft_dup(t_redirect *tab, t_exec *var)
 	if (tab->lst_pfd_in != 0 && tab->lst_pfd_out != 0)
 		close(tab->lst_pfd_out);
 	if (dup2(tab->in, STDIN_FILENO) == -1)
-		ft_quit_with_msg("", 0, var);
+		ft_quit_with_msg(NULL, "", 2, var);
 	if (dup2(tab->out, STDOUT_FILENO) == -1)
-		ft_quit_with_msg("", 0, var);
+		ft_quit_with_msg(NULL, "", 2, var);
 }
 
 int    grep_path(char **env, t_exec *var)
@@ -229,7 +226,7 @@ void    exec(char **cmd, char **env, t_exec *var, t_redirect *tab)
 	var->path = NULL;
     var->index_env = 0;
     if (grep_path(env, var) == -1)
-        ft_quit_with_msg("Error\nPATH\n", EXE, var);
+        ft_quit_with_msg(NULL, "Error\nPATH\n", 1, var);
     var->env_path = ft_split(env[var->index_env], ':');
 	if (ft_check_path(cmd, var->env_path, var) == 0)
 	{
@@ -238,18 +235,19 @@ void    exec(char **cmd, char **env, t_exec *var, t_redirect *tab)
 		var->path = ft_gnljoin(var->slash_join, cmd[0]);
 		ft_freesplit(var->env_path);
 		if (execve(var->path, cmd, env) == -1)
-            ft_quit_with_msg("Error\nNo prog to execute\n", EXE, var);
+            ft_quit_with_msg(NULL, "Error\nNo prog to execute\n", 126, var);
 	}
 	else
-		ft_quit_with_msg("Error\nCommand not found\n", CMDENV, var);
+		ft_quit_with_msg(cmd[0], ": command not found\n", 127, var);
+		
 }
 
 void    exec_case(char **cmd, char **env, t_exec *var)
 {
 		if (execve(cmd[0], cmd, env) == -1)
-            ft_quit_with_msg("Error\nNo prog to execute\n", EXE, var);
+            ft_quit_with_msg(NULL, "Error\nNo prog to execute\n", 126, var);
 		else
-			ft_quit_with_msg("Error\nCommand not found\n", CMDENV, var);
+			ft_quit_with_msg(cmd[0], ": command not found\n", 127, var);
 }
 
 int ft_check_cmd(char **cmd, char **env, t_exec *var)
@@ -285,7 +283,7 @@ int kangourou(char **cmd, char **env, t_redirect *tab)
 		cas++;
     pid = fork();
     if (pid == -1)
-		ft_quit_with_msg("Error\nFork\n", CMDENV, &var);
+		ft_quit_with_msg(NULL, "Error\nFork\n", 2, &var);
     if (pid == 0)
     {
         ft_dup(tab, &var);
@@ -295,7 +293,7 @@ int kangourou(char **cmd, char **env, t_redirect *tab)
 			exec(cmd, env, &var, tab);
     }
     else
-    {
+	{
 		g_global.qlf = 1;
 		ft_close(tab);
 	}

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/13 18:26:23 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/13 19:29:27 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,55 @@ void    sig_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
-		g_global.heredoc = 1;
-		close(g_global.listener);
-		printf("\n");
-		
-		if (!g_global.in_heredoc && !g_global.qlf)
+		ft_putstr_fd("\n", 1);
+		if (g_global.in_heredoc)
+		{
+			g_global.heredoc = 1;
+			close(g_global.listener);
+		}
+		if (g_global.in_heredoc == 0 && g_global.qlf == 0)
 		{
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
 	}
+}
+
+void    ft_create_env(char **env, t_list **first)
+{
+    int i;
+    int k;
+    
+    i = 0;
+    k = 0;
+    *first = NULL;
+    while (env[i])
+    {
+        ft_lstadd_back(first, ft_lstnew(env[i++]));
+        i++;
+    }
+    if (!(*first))
+        printf("ERROR ENV\n");
+}
+
+int    ft_wait(int *pid)
+{
+    int status;
+    int w;
+
+    w = 0;
+    status = 0;
+    w = waitpid(*pid, &status, 0);
+    if (WIFSIGNALED(status))
+        g_global.exit_status = 128 + WTERMSIG(status);
+    else if (WIFCONTINUED(status))
+       g_global.exit_status = 128 + WIFEXITED(status);
+    else if (WIFSTOPPED(status))
+        g_global.exit_status = 128 + WSTOPSIG(status);
+    while (wait(NULL) > 0)
+        break ;
+    return (status);
 }
 
 int is_empty(t_list *lst)
@@ -128,9 +166,10 @@ int main(int argc, char **argv, char **env)
 			i++;
 		}
 		unlink(".heredoc");
-		waitpid(pid, &status, 0);
-		while (wait(NULL) > 0)
-			;
+        status = ft_wait(&pid);
+        if (status > 255)
+            status = status % 255;
+        g_global.exit_status = status;
 	}
 	return (0);
 }
