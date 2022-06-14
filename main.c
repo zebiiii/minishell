@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/13 19:29:27 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/14 21:18:48 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,10 @@ int main(int argc, char **argv, char **env)
 		g_global.in_heredoc = 0;
 		res = readline("minishell> ");
 		if (res == NULL)
+		{
+			ft_putstr_fd("exit", 1);
 			exit(1);
+		}
 		if (ft_strlen(res) < 1)
 			continue;
 		add_history(res);
