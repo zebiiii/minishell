@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/13 18:23:43 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:45:33 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,11 @@ int		echo(int argc, char **argv);
 int		get_size(t_list **head);
 char    *replace_len(char *str, char *word, int len);
 char	*ft_itoa(int n);
+int    ft_doubleredirect_in(t_list *lst);
+int    ft_doubleredirect_out(t_list *lst);
+int ft_pipe(t_list *lst, t_redirect tab[], int j, int size);
+int    ft_redirect_in(t_list *lst);
+int    ft_redirect_out(t_list *lst);
+char    *replace_env_link(char *str);
 
 #endif

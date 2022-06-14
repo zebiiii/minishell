@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/10 19:28:27 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/14 15:45:05 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,11 @@ SRCS	= 	main.c \
 			utils/set_env.c \
 			utils/lst_to_argv.c \
 			utils/handle_symbol.c \
+			utils/symbols/doubleredirect_in.c \
+			utils/symbols/doubleredirect_out.c \
+			utils/symbols/pipe.c \
+			utils/symbols/redirect_in.c \
+			utils/symbols/redirect_out.c \
 			utils/gnl.c \
 			utils/get_size.c \
 			exec/kangourou.c \
