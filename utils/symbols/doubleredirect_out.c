@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:56 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/14 20:14:35 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/15 18:13:41 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_list *ft_init_doubleout(t_redirectin *data, t_list *lst)
 
 void    ft_open_doubleout(t_redirectin *data)
 {
+    if (!(data->arg))
+        return;
     data->fd = open(data->arg, O_DIRECTORY | O_WRONLY, 0644);
     if (data->fd > 0)
     {
@@ -61,8 +63,12 @@ int    ft_doubleredirect_out(t_list *lst)
 
     data = ft_calloc(1, sizeof(t_redirectin *));
     lst = ft_init_doubleout(data, lst);
+    printf("%d\n", data->fd);
     if (!lst)
-        return (0);
+    {
+        ft_open_doubleout(data);
+        return (data->fd);
+    }
     while(lst && (data->type == 8 || data->type == 9 || data->type == 10))
     {
         data->tmp = replace_env_link((char *)((t_cmd *)lst->content)->content);
@@ -70,7 +76,7 @@ int    ft_doubleredirect_out(t_list *lst)
             return (0);
         data->arg = ft_strjoin(data->arg, data->tmp);
         ((t_cmd *)lst->content)->type = delete;
-        lst = lst->next;
+        lst = lst->next;     
         if (lst)
             data->type = (int)((t_cmd *)lst->content)->type;
     }

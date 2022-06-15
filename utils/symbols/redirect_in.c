@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:12 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/14 20:01:48 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/15 18:15:27 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_list *ft_init(t_redirectin *data, t_list *lst)
 
 void    ft_open(t_redirectin *data)
 {
+    if (!(data->arg))
+        return;
     data->fd = open(data->arg, O_DIRECTORY | O_RDONLY, 0644);
     if (data->fd == -1)
         data->fd = open(data->arg, O_RDONLY, 0644);
@@ -57,7 +59,10 @@ int    ft_redirect_in(t_list *lst)
     data = ft_calloc(1, sizeof(t_redirectin *));
     lst = ft_init(data, lst);
     if (!lst)
-        return (0);
+    {
+        ft_open(data);
+        return (data->fd);
+    }
     while(lst && (data->type == 8 || data->type == 9 || data->type == 10))
     {
         data->tmp = replace_env_link((char *)((t_cmd *)lst->content)->content);

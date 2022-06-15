@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 17:21:19 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/10 14:03:14 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/15 16:56:51 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ struct s_data
 	int		i;
 	int		j;
 	int		k;
-	char	**array;
+	int		next_quote;
 };
 
 char	*ft_strn(char const *str, int lenght)
@@ -93,16 +93,24 @@ t_cmd *create_content(char *str, int quote, int suite)
 	return (cmd);
 }
 
+int	ft_next_quote(struct s_data *data, char const *str, int type)
+{
+	int	next_quote;
+
+	if (type)
+		next_quote = is_quote_close(&str[data->i + data->j], '\"');
+	else 
+		next_quote = is_quote_close(&str[data->i + data->j], '\'');
+	return (next_quote);
+}
+
 int	handle_quote(struct s_data *data, char const *str, int type, t_list **a)
 {
 	int	suite;
 	int	next_quote;
 
 	suite = 0;
-	if (type)
-		next_quote = is_quote_close(&str[data->i + data->j], '\"');
-	else 
-		next_quote = is_quote_close(&str[data->i + data->j], '\'');
+	next_quote = ft_next_quote(data, str, type);
 	if (next_quote)
 	{
 		if (data->j)
@@ -123,13 +131,26 @@ int	handle_quote(struct s_data *data, char const *str, int type, t_list **a)
 		return (0);
 }
 
+void	ft_init_split(struct s_data *data)
+{
+	data = calloc(1, sizeof(*data));
+	data->i = 0;
+	data->next_quote = 0;
+}
+
+void ft_add_content(struct s_data *data, char const *str, t_list **a)
+{
+	if (data->i > 0 && str[data->i - 1] != ' ')
+		ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data->i], data->j - 1), 0, 8)));
+	else
+		ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data->i], data->j - 1), 0, 0)));
+	data->i += data->j;
+}
+
 void	ft_split_list(char const *str, char c, t_list **a)
 {
 	struct s_data	*data;
-	int	next_quote;
-	int	nfq;
 
-	next_quote = 0;
 	data = calloc(1, sizeof(*data));
 	data->i = 0;
 	while (str[data->i])
@@ -137,25 +158,16 @@ void	ft_split_list(char const *str, char c, t_list **a)
 		data->j = 0;
 		while (str[data->i + data->j] && str[data->i + data->j] != c)
 		{
-			if (str[data->i + data->j] == '\"')
-				if (handle_quote(data, str, 1, a))
-					break;
-			if (str[data->i + data->j] == '\'')
-				if (handle_quote(data, str, 0, a))
-					break;
+			if (str[data->i + data->j] == '\"' && handle_quote(data, str, 1, a))
+				break;
+			if (str[data->i + data->j] == '\'' && handle_quote(data, str, 0, a))
+				break;
 			data->j++;
 		}
 		if (data->j)
-		{
-			if (data->i > 0 && str[data->i - 1] != ' ')
-				ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data->i], data->j - 1), 0, 8)));
-			else
-				ft_lstadd_back(a, ft_lstnew(create_content(ft_strn(&str[data->i], data->j - 1), 0, 0)));
-			data->i += data->j;
-		}
+			ft_add_content(data, str, a);
 		else
 			data->i++;
 	}
 	free(data);
 }
-
