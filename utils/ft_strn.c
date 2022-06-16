@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 13:56:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 15:59:51 by mgoudin          ###   ########.fr       */
+/*   Created: 2022/06/16 15:41:20 by mgoudin           #+#    #+#             */
+/*   Updated: 2022/06/16 18:59:48 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strn(char const *str, int lenght)
 {
-	char	*str;
+	char	*value;
 	int		i;
-	int		j;
 
-	str = calloc(ft_strlen(s1) + ft_strlen(s2) + 1, 1);
-	if (!str)
+	value = calloc(lenght + 1, 1);
+	if (!value)
 		return (0);
 	i = 0;
-	while (s1[i])
+	while (i <= lenght)
 	{
-		str[i] = s1[i];
+		value[i] = str[i];
 		i++;
 	}
-	j = 0;
-	while (s2[j])
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
-	str[i] = 0;
-	return (str);
+	value[i] = '\0';
+	return (value);
 }

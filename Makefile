@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/14 15:45:05 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/16 17:43:22 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,10 @@ SRCS	= 	main.c \
 			utils/symbols/redirect_out.c \
 			utils/gnl.c \
 			utils/get_size.c \
+			utils/ft_strn.c \
+			utils/misc.c \
+			utils/handle_quote/handle_quote.c \
+			utils/init/init.c \
 			exec/kangourou.c \
 			libft/ft_lstadd_back.c \
 			libft/ft_lstadd_front.c \

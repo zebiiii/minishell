@@ -6,20 +6,20 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:58:08 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/24 18:30:36 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/16 16:01:44 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd()
+int	ft_pwd( void )
 {
 	char	cwd[1024];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		ft_putstr_fd(cwd, 1); 
-		ft_putstr_fd("\n", 1); 
+		ft_putstr_fd(cwd, 1);
+		ft_putstr_fd("\n", 1);
 	}
 	else
 		ft_putstr_fd("error\n", 1);

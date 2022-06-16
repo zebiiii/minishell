@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/14 15:45:33 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/16 19:17:42 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,18 @@ typedef struct s_redirect
 	int lst_pfd_out;
 	char *str;
 }					t_redirect;
+typedef struct  s_symbol
+{
+	int		i;
+	int		j;
+}               t_symbol;
+typedef struct s_split
+{
+	int		i;
+	int		j;
+	int		k;
+	int		next_quote;
+}				t_split;
 typedef struct s_g
 {
 	int qlf;
@@ -75,9 +87,27 @@ typedef struct s_g
 	int	listener;
 	int	in_heredoc;
 }					t_g;
-
 t_g		g_global;
-
+typedef struct s_heredoc
+{
+	int		listener;
+	char	*heredoc;
+	char	*line;
+	int		fd;
+}				t_heredoc;
+typedef struct s_redirectin
+{
+	int	fd;
+	char *arg;
+	char *tmp;
+	int type;
+}					t_redirectin;
+typedef struct s_argv
+{
+	char	*res;
+	int		type;
+	int		i;
+}				t_argv;
 int     ft_pwd();
 int		ft_exit(char *status);
 int     ft_putstr_fd(char *str, int fd);
@@ -118,5 +148,15 @@ int ft_pipe(t_list *lst, t_redirect tab[], int j, int size);
 int    ft_redirect_in(t_list *lst);
 int    ft_redirect_out(t_list *lst);
 char    *replace_env_link(char *str);
-
+char	*ft_strn(char const *str, int lenght);
+enum s_type	get_type(char *str);
+int	handle_quote(t_split *data, char const *str, int type, t_list **a);
+int	ft_next_quote(t_split *data, char const *str, int type);
+t_cmd	*create_content(char *str, int quote, int suite);
+void	ft_initdata(t_heredoc *data);
+int	write_heredoc(char *heredoc, int fd);
+void	init_stdin_stdout(t_redirect *tab, int len);
+void	ft_init_env(t_symbol *data);
+char	*get_env_and_status(char *word);
+void	ft_initdata_argv(t_argv *data);
 #endif

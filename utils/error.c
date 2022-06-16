@@ -6,15 +6,15 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:38:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/08 14:36:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/16 18:58:19 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int print_error(char *str)
+int	print_error(char *str)
 {
-    ft_putstr_fd(str, 2);
-    strerror(0);
-    return (0);
+	ft_putstr_fd(str, 2);
+	strerror(0);
+	return (0);
 }

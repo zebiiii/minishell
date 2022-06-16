@@ -6,22 +6,22 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:36:12 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/05/30 16:11:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/16 18:59:06 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_putstr_fd(char *str, int fd)
+int	ft_putstr_fd(char *str, int fd)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-    {
-        if (write(fd, &str[i], 1) == -1)
-            exit(EXIT_FAILURE);
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (write(fd, &str[i], 1) == -1)
+			exit(EXIT_FAILURE);
+		i++;
+	}
+	return (0);
 }
