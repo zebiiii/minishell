@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:45:54 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 17:17:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:39:01 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ void	ft_init_env2(t_env *data)
 	data->k = 0;
 }
 
+void	increment(t_env *data)
+{
+	data->k++;
+	data->i++;
+}
+
+void	increment_var(t_env *data, int len)
+{
+	data->k += data->j;
+	data->i += len;
+}
+
 char	*replace_len(char *str, char *word, int len)
 {
 	char	*res;
@@ -40,17 +52,15 @@ char	*replace_len(char *str, char *word, int len)
 	{
 		if (str[data->i] == '$' && !(data->j))
 		{
-			while (word[data->j])//rm if word
+			while (word[data->j])
 			{
 				res[data->k + data->j] = word[data->j];
 				data->j++;
 			}
-			data->k += data->j;
-			data->i += len;
+			increment_var(data, len);
 		}
 		res[data->k] = str[data->i];
-		data->k++;
-		data->i++;
+		increment(data);
 	}
 	res[data->k] = 0;
 	free(data);

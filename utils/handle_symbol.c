@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 17:24:09 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:35:53 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ int	handle_error(t_symbol *data, char *tmp, char *str)
 	if (is_space(tmp))
 		print_error("ambiguous redirect\n");
 	return (0);
+}
+
+int	free_error(t_symbol *data, int fd)
+{
+	free(data);
+	return (fd);
 }
 
 char	*replace_env_link(char *str)
@@ -44,7 +50,7 @@ char	*replace_env_link(char *str)
 			word = ft_strn(&str[data->i + 1], data->j - 2);
 			tmp = get_env_and_status(word);
 			if (handle_error(data, tmp, str))
-				return (0) ; //todo free
+				return (free_error(data, 0));
 			str = replace_len(str, tmp, data->j);
 			data->i += ft_strlen(tmp) - 1;
 		}
@@ -127,6 +133,13 @@ void	ft_closetab(t_redirect *tab, int j)
 	}
 }
 
+t_redirect	*handle_symbol_error(t_redirect *tab, int j)
+{
+	ft_closetab(tab, j);
+	free(tab);
+	return (NULL);
+}
+
 t_redirect	*handle_symbol(t_list **head, int len)
 {
 	t_list		*lst;
@@ -144,19 +157,11 @@ t_redirect	*handle_symbol(t_list **head, int len)
 		if (type == pipe_)
 		{
 			if (!handle_type_pipe(lst, tab, j, len))
-			{
-				ft_closetab(tab, j);
-				free(tab);
-				return (NULL);
-			}
+				return (handle_symbol_error(tab, j));
 			j++;
 		}
 		if (!handle_type_redirect(lst, tab, type, j))
-			{
-				ft_closetab(tab, j);
-				free(tab);
-				return (NULL);
-			}
+			return (handle_symbol_error(tab, j));
 		lst = lst->next;
 	}
 	return (tab);

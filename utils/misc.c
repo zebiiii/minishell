@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:42:03 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 14:25:18 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:36:17 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	write_heredoc(char *heredoc, int fd)
 	return (fd);
 }
 
-int count_char_return(t_data *data)
+int	count_char_return(t_data *data)
 {
 	int	tmp;
 
