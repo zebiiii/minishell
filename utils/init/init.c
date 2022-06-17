@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:37:16 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 19:17:28 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 11:43:16 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ void	ft_initdata(t_heredoc *data)
 }
 
 void	ft_init_env(t_symbol *data)
-{   
+{
 	data->i = 0;
 	data->j = 0;
 }
 
 void	init_stdin_stdout(t_redirect *tab, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < len)
+	while (i < len)
 	{
 		tab[i].out = 1;
 		tab[i].in = 0;
@@ -43,6 +43,12 @@ void	init_stdin_stdout(t_redirect *tab, int len)
 		tab[i].lst_pfd_out = 0;
 		i++;
 	}
+}
+
+void	ft_init_space(t_data *data)
+{
+	data->i = 0;
+	data->j = 0;
 }
 
 void	ft_initdata_argv(t_argv *data)

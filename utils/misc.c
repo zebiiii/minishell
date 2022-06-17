@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:42:03 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 19:12:23 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 11:43:58 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	count_char(char *str)
 
 int	is_space(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -84,7 +84,7 @@ int	is_space(char *str)
 
 char	*get_env_and_status(char *word)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (!ft_strncmp(word, "?", ft_strlen(word)))
 		tmp = ft_itoa(g_global.exit_status);

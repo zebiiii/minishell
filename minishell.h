@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 19:17:42 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 11:30:02 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ typedef struct s_argv
 	int		type;
 	int		i;
 }				t_argv;
+typedef struct s_data
+{
+	int	i;
+	int	j;
+}				t_data;
 int     ft_pwd();
 int		ft_exit(char *status);
 int     ft_putstr_fd(char *str, int fd);
@@ -159,4 +164,8 @@ void	init_stdin_stdout(t_redirect *tab, int len);
 void	ft_init_env(t_symbol *data);
 char	*get_env_and_status(char *word);
 void	ft_initdata_argv(t_argv *data);
+int	is_space(char *str);
+void	ft_init_space(t_data *data);
+int	count_char(char *str);
+void	count_symbol(t_data *data, char *str);
 #endif

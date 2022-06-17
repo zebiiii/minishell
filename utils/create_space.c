@@ -6,23 +6,11 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:05:57 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 18:57:44 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 11:41:34 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-typedef struct s_data
-{
-	int	i;
-	int	j;
-}				t_data;
-
-void	ft_init_space(t_data *data)
-{
-	data->i = 0;
-	data->j = 0;
-}
 
 void	count_symbol(t_data *data, char *str)
 {
@@ -50,6 +38,18 @@ void	add_symbol(t_data *data, char *str, char *res)
 		res[data->i + data->j++] = ' ';
 	if (str[data->i] != '>' && str[data->i - 1] == '>')
 		res[data->i + data->j++] = ' ';
+}
+
+int	handle_stopcpy(t_data *data, char *str)
+{
+	int	stopcpy;
+
+	stopcpy = 0;
+	if (str[data->i] == '\"')
+		stopcpy = (is_quote_close(&str[data->i], '\"') + 1);
+	if (str[data->i] == '\'')
+		stopcpy = (is_quote_close(&str[data->i], '\'') + 1);
+	return (stopcpy);
 }
 
 char	*create_space(char *str)

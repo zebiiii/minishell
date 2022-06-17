@@ -6,19 +6,11 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:12 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 17:53:06 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 11:15:24 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-typedef struct s_redirectin
-{
-	int		fd;
-	char	*arg;
-	char	*tmp;
-	int		type;
-}				t_redirectin;
 
 t_list	*ft_init(t_redirectin *data, t_list *lst)
 {

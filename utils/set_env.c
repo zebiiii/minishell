@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:45:54 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 19:50:14 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 11:14:42 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_env
 	int	k;
 }				t_env;
 
-void	ft_init_env(t_env *data)
+void	ft_init_env2(t_env *data)
 {
 	data->i = 0;
 	data->j = 0;
@@ -33,7 +33,7 @@ char	*replace_len(char *str, char *word, int len)
 	int		length;
 
 	data = ft_calloc(1, sizeof(t_env *));
-	ft_init_env(data);
+	ft_init_env2(data);
 	length = ft_strlen(word) + ft_strlen(str);
 	res = calloc(length - len + 1, 1);
 	while (str[data->i])
@@ -71,6 +71,7 @@ void	replace_env(t_cmd *e)
 	int		j;
 	char	*tmp;
 	char	*word;
+	char	c;
 
 	i = -1;
 	j = 0;
@@ -79,8 +80,8 @@ void	replace_env(t_cmd *e)
 		if (((char *)e->content)[i] == '$')
 		{
 			j = 1;
-			tmp = ((char *)e->content)[i + j];
-			while (tmp && tmp != ' ' && tmp != '$')
+			c = ((char *)e->content)[i + j];
+			while (c && c != ' ' && c != '$')
 				j++;
 			word = ft_strn(&((char *)e->content)[i + 1], j - 2);
 			tmp = get_env_and_status(word);
