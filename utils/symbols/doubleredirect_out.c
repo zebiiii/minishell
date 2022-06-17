@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:56 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 17:47:27 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 13:47:08 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,16 @@ int	ft_doubleredirect_out(t_list *lst)
 
 	data = ft_calloc(1, sizeof(t_redirectin *));
 	lst = ft_init_doubleout(data, lst);
-	printf("%d\n", data->fd);
 	if (!lst)
 	{
 		ft_open_doubleout(data);
-		return (data->fd);
+		return (free_symbol(data->fd, data));
 	}
 	while (lst && (data->type == 8 || data->type == 9 || data->type == 10))
 	{
 		data->tmp = replace_env_link((char *)((t_cmd *)lst->content)->content);
 		if (!(data->tmp))
-			return (0);
+			return (free_symbol(0, data));
 		data->arg = ft_strjoin(data->arg, data->tmp);
 		((t_cmd *)lst->content)->type = delete;
 		lst = lst->next;
@@ -73,7 +72,7 @@ int	ft_doubleredirect_out(t_list *lst)
 			data->type = (int)((t_cmd *)lst->content)->type;
 	}
 	ft_open_doubleout(data);
-	return (data->fd);
+	return (free_symbol(data->fd, data));
 }
 
 // int    ft_doubleredirect_out(t_list *lst)

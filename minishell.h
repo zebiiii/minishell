@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 11:30:02 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 16:21:53 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,4 +168,5 @@ int	is_space(char *str);
 void	ft_init_space(t_data *data);
 int	count_char(char *str);
 void	count_symbol(t_data *data, char *str);
+int free_symbol(int fd, void *el);
 #endif

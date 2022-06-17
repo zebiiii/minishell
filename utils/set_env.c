@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:45:54 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 11:14:42 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:17:46 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,25 @@ char	*replace_len(char *str, char *word, int len)
 	data = ft_calloc(1, sizeof(t_env *));
 	ft_init_env2(data);
 	length = ft_strlen(word) + ft_strlen(str);
-	res = calloc(length - len + 1, 1);
+	res = ft_calloc(length - len + 1, 1);
 	while (str[data->i])
 	{
 		if (str[data->i] == '$' && !(data->j))
 		{
-			while (word && word[data->j])
-				res[data->k + data->j] = word[data->j++];
+			while (word[data->j])//rm if word
+			{
+				res[data->k + data->j] = word[data->j];
+				data->j++;
+			}
 			data->k += data->j;
 			data->i += len;
 		}
-		res[data->k] = str[data->i++];
+		res[data->k] = str[data->i];
 		data->k++;
+		data->i++;
 	}
 	res[data->k] = 0;
-	free(str);
+	free(data);
 	return (res);
 }
 
@@ -71,17 +75,16 @@ void	replace_env(t_cmd *e)
 	int		j;
 	char	*tmp;
 	char	*word;
-	char	c;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	while (((char *)e->content)[++i])
+	while (((char *)e->content)[i])
 	{
 		if (((char *)e->content)[i] == '$')
 		{
 			j = 1;
-			c = ((char *)e->content)[i + j];
-			while (c && c != ' ' && c != '$')
+			tmp = ((char *)e->content);
+			while (tmp[i + j] && tmp[i + j] != ' ' && tmp[i + j] != '$')
 				j++;
 			word = ft_strn(&((char *)e->content)[i + 1], j - 2);
 			tmp = get_env_and_status(word);
@@ -90,6 +93,7 @@ void	replace_env(t_cmd *e)
 			e->content = replace_len(((char *)e->content), tmp, j);
 			i += ft_strlen(tmp) - 1;
 		}
+		i++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:26:27 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 17:40:30 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 17:28:45 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ int	ft_heredoc(char *limiter)
 	ft_initdata(data);
 	ft_openheredoc(data);
 	if (data->fd < 0)
-		return (data->fd);
+		return (free_symbol(data->fd, data));
 	ft_putstr_fd("> ", 1);
 	if (ft_firstcall(data, limiter) == 1)
-		return (data->fd);
+		return (free_symbol(data->fd, data));
 	while (data->line && ft_strncmp(data->line,
 			limiter, ft_strlen(limiter)) != 0)
 	{
@@ -73,11 +73,11 @@ int	ft_heredoc(char *limiter)
 		ft_putstr_fd("> ", 1);
 		data->line = get_next_line(data->listener);
 		if (data->line == NULL || g_global.heredoc)
-			return (ft_quitcase(data));
+			return (free_symbol(ft_quitcase(data), data));
 	}
 	data->fd = write_heredoc(data->heredoc, data->fd);
 	g_global.in_heredoc = 0;
-	return (data->fd);
+	return (free_symbol(data->fd, data));
 }
 
 // int	ft_heredoc(char *limiter)

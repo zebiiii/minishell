@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/16 17:43:22 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/17 13:37:45 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS	= 	main.c \
 			utils/symbols/pipe.c \
 			utils/symbols/redirect_in.c \
 			utils/symbols/redirect_out.c \
+			utils/symbols/free_symbols.c \
 			utils/gnl.c \
 			utils/get_size.c \
 			utils/ft_strn.c \

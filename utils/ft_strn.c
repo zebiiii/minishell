@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:41:20 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 18:59:48 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 15:03:51 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strn(char const *str, int lenght)
 	char	*value;
 	int		i;
 
-	value = calloc(lenght + 1, 1);
+	value = ft_calloc(lenght + 1, 1);
 	if (!value)
 		return (0);
 	i = 0;

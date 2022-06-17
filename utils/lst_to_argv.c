@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 19:17:31 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 15:23:46 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**lst_to_argv(t_list **head)
 	t_list	*lst;
 
 	lst = *head;
-	argv = calloc(count_arg(head) + 1, sizeof(char *));
+	argv = ft_calloc(count_arg(head) + 1, sizeof(char *));
 	data = ft_calloc(1, sizeof(t_argv *));
 	ft_initdata_argv(data);
 	while (lst)
@@ -90,5 +90,6 @@ char	**lst_to_argv(t_list **head)
 		argv[data->i++] = data->res;
 	}
 	argv[data->i] = 0;
+	free(data);
 	return (argv);
 }

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:42:03 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 11:43:58 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 14:25:18 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ int	write_heredoc(char *heredoc, int fd)
 	return (fd);
 }
 
+int count_char_return(t_data *data)
+{
+	int	tmp;
+
+	tmp = data->j + data->i;
+	free(data);
+	return (tmp);
+}
+
 int	count_char(char *str)
 {
 	t_data	*data;
@@ -65,7 +74,7 @@ int	count_char(char *str)
 			stop_count--;
 		data->i++;
 	}
-	return (data->j + data->i);
+	return (count_char_return(data));
 }
 
 int	is_space(char *str)

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:12 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 11:15:24 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 13:39:15 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ int	ft_redirect_in(t_list *lst)
 	if (!lst)
 	{
 		ft_open(data);
-		return (data->fd);
+		return (free_symbol(data->fd, data));
 	}
 	while (lst && (data->type == 8 || data->type == 9 || data->type == 10))
 	{
 		data->tmp = replace_env_link((char *)((t_cmd *)lst->content)->content);
 		if (!(data->tmp))
-			return (0);
+			return (free_symbol(0, data));
 		data->arg = ft_strjoin(data->arg, data->tmp);
 		((t_cmd *)lst->content)->type = delete;
 		lst = lst->next;
@@ -67,7 +67,7 @@ int	ft_redirect_in(t_list *lst)
 			data->type = (int)((t_cmd *)lst->content)->type;
 	}
 	ft_open(data);
-	return (data->fd);
+	return (free_symbol(data->fd, data));
 }
 
 // int    ft_redirect_in(t_list *lst)
