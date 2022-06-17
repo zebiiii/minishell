@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:04:41 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 16:00:49 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 21:30:48 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*ft_gnljoin(char *s1, char *s2)
 		j++;
 	}
 	pt[i + j] = '\0';
-	//free(s1);
+	free(s1); //PROBLEMATIC
 	return (pt);
 }
+

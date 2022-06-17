@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:12 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 13:39:15 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 20:45:27 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	ft_open(t_redirectin *data)
 		data->fd = open(data->arg, O_RDONLY, 0644);
 	if (data->fd == -1)
 	{
-		print_error(ft_strjoin(data->arg, ": No such file or directory\n"));
+		print_error(data->arg);
+		print_error(": No such file or directory\n");
 		g_global.exit_status = 1;
 	}
 }

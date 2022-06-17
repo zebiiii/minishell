@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 15:23:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 20:41:00 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	**lst_to_argv(t_list **head)
 		lst = ft_iterargv(lst, data);
 		argv[data->i++] = data->res;
 	}
-	argv[data->i] = 0;
 	free(data);
+	argv[data->i] = 0;
 	return (argv);
 }

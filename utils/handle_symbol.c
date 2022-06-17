@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 17:35:53 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 20:34:01 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	handle_error(t_symbol *data, char *tmp, char *str)
 	return (0);
 }
 
-int	free_error(t_symbol *data, int fd)
+char	*free_error(t_symbol *data, int fd)
 {
 	free(data);
-	return (fd);
+	return (0);
 }
 
 char	*replace_env_link(char *str)

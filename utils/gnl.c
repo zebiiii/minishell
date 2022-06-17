@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:29:36 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 15:29:46 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 21:33:07 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*get_next_line(int fd)
 		r = read(fd, buf, 1);
 		if ((r == -1) || (r == 0 && stock && stock[0] == '\0'))
 		{
-			//free(stock);
+			free(stock);
 			return (NULL);
 		}
 		buf[r] = '\0';

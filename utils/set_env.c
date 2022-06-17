@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 16:45:54 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 17:39:01 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 20:42:14 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*replace_len(char *str, char *word, int len)
 		increment(data);
 	}
 	res[data->k] = 0;
-	free(data);
+	free(data); //PROBLEM LEAKS
 	return (res);
 }
 

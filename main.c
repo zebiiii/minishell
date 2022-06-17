@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 17:29:45 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 22:01:54 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,31 +147,38 @@ int main(int argc, char **argv, char **env)
 		g_global.in_heredoc = 0;
 		res = readline("minishell> ");
 		if (res == NULL)
+		{
+			unlink(".heredoc");
 			exit(1);
+		}
 		if (ft_strlen(res) < 1)
 			continue;
 		add_history(res);
 		res = create_space(res);
 		ft_split_list(res, ' ', head);
 		size = get_size(head);
-		tab = handle_symbol(head, size); //TODO free val into data
+		tab = handle_symbol(head, size); 
 		if (!tab)
 			continue; 
 		set_env(head);
 		while (i < size)
 		{
 			arg = lst_to_argv(head);
+			if (!arg[0] && tab[i].lst_pfd_in)
+				close(tab[i].lst_pfd_in);
 			if (arg[0] != 0)
+			{
 				pid = kangourou(arg, env, &tab[i]);
-			free(arg);
+				free(arg);
+			}
 			i++;
 		}
 		unlink(".heredoc");
-		free(tab);
         status = ft_wait(&pid);
         if (status > 255)
             status = status % 255;
         g_global.exit_status = status;
+		free(tab);
 	}
 	return (0);
 }
