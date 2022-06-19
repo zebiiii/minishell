@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/17 13:37:45 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/19 18:32:45 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ SRCS	= 	main.c \
 			builtin/exit.c \
 			builtin/cd.c \
 			builtin/echo.c \
+			builtin/env.c \
+			builtin/export.c \
+			builtin/unset.c \
 			utils/error.c \
 			utils/ft_atoi.c \
 			utils/ft_putstr_fd.c \
@@ -48,7 +51,7 @@ SRCS	= 	main.c \
 			libft/ft_lstmap.c \
 			libft/ft_lstnew.c \
 			libft/ft_lstsize.c \
-			libft/ft_split.c \
+			libft/ft_split_list.c \
 			libft/ft_strjoin.c \
 			libft/ft_strncmp.c \
 			libft/ft_gnljoin.c \

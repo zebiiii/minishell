@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int    cd(char **argv)
+int    ft_cd(char **argv)
 {
 	char *s;
 

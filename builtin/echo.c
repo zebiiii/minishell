@@ -34,7 +34,7 @@ int	ft_check_option(char **argv)
     return (i);
 }
 
-int    echo(int argc, char **argv)
+int    ft_echo(int argc, char **argv)
 {
     int i;
     int len;
@@ -46,21 +46,21 @@ int    echo(int argc, char **argv)
     if (!argv[i])
 	{
 		write(1, "\n", 1);
-		return (0);
+		exit(EXIT_SUCCESS);
 	}
     i = ft_check_option(argv);
     if (i <= len && i != 0)
         with_option++;
     while(argv[i])
     {
-        ft_putstr_fd(argv[i], 1);
+        ft_putstr_fd(argv[i], STDOUT_FILENO);
         if (!(argv[i + 1] == '\0'))
             write(1, " ", 1);
         i++;
     }
     if (with_option == 0)
         write(1, "\n", 1);
-    return 0;
+    exit(EXIT_SUCCESS);
 }
 
 /*int main(int argc, char **argv, char **env)

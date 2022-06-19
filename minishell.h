@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 21:29:53 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/19 18:33:58 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_g
 	int	heredoc;
 	int	listener;
 	int	in_heredoc;
+	int	indicateur;
 }					t_g;
 t_g		g_global;
 typedef struct s_heredoc
@@ -110,9 +111,19 @@ typedef struct s_argv
 }				t_argv;
 typedef struct s_data
 {
-	int	i;
-	int	j;
-}				t_data;
+	struct s_exec		*exec;
+	struct s_redirect	*redir;
+	t_list		*env_lst;		//a free
+	t_list		*export_lst;	//a free
+	t_list		**head_env;
+	t_list		**head_export;
+	int		size;
+	int		lst_size;
+	int		i;
+	int		j;
+	int		k;
+	char	**array;
+}	t_data;
 int     ft_pwd();
 int		ft_exit(char *status);
 int     ft_putstr_fd(char *str, int fd);
@@ -141,7 +152,7 @@ char	*get_next_line(int fd);
 char	*ft_gnljoin(char *s1, char *s2);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
-int	kangourou(char **cmd, char **env, t_redirect *tab);
+int kangourou(char **cmd, char **env, t_redirect *tab, t_data *data);
 int		cd(char **argv);
 int		echo(int argc, char **argv);
 int		get_size(t_list **head);
@@ -170,4 +181,42 @@ int	count_char(char *str);
 void	count_symbol(t_data *data, char *str);
 int free_symbol(int fd, void *el);
 char	*ft_gnljoin2(char *s1, char *s2);
+char	**ft_split(char const *s, char c);
+
+size_t	ft_strlen2d(char **s);
+int		ft_env(t_list *lst);
+void	ft_putstr_2(char **arg, char *msg);
+void    ft_exit_char(void);
+long long	ft_atoi_exit_case(char *str);
+int    ft_export(char **argv, t_list *lst, t_data *data);
+int		ft_check_argument(char *argv, t_list *lst, t_data *data);
+int		ft_check_str(char *argv, t_list *lst, t_data *data);
+int		ft_check_first_char(char *argv);
+int		ft_exit_export(char *str, char *argv);
+void	ft_putchar_fd(char c, int fd);
+char	*ft_gnljoin_2(char *s1, char *s2);
+char	*ft_strjoin_quote(char *s1, char *s2);
+int		bt_before_fork(char **cmd, t_data *data, t_list *lst, int size);
+int 	ft_len_equal(char *s);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strdup(char *s1);
+int    ft_add_to_export(char *argv, t_list *lst, t_data *data);
+int	ft_strcmp(const char *s1, const char *s2);
+int ft_check_content(char *tmp, t_list *lst, t_data *data);
+int ft_check_equal(char *tmp);
+int ft_check_first_char(char *argv);
+int    ft_exit_export(char *str, char *argv);
+int ft_fusion_equal(char *tmp, t_list *lst, char *str);
+int ft_fusion(char *argv, t_list *lst, t_data *data);
+int ft_check_str(char *argv, t_list *lst, t_data *data);
+int ft_check_argument(char *argv, t_list *lst, t_data *data);
+int ft_print_export(t_list *lst);
+int export_first_step(char *argv, t_list *lst);
+int    ft_export(char **argv, t_list *lst, t_data *data);
+int    ft_check_unset(char *argv, t_data *data);
+int ft_check_eq(char *argv, t_data *data);
+int    ft_del_equal(char *argv, t_data *data, t_list *lst);
+int ft_check_option_unset(char *argv);
+int ft_unset(char **argv, t_data *data);
+void    ft_freesplit(char **str);
 #endif
