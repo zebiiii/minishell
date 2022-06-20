@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:37:16 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 11:43:16 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 18:22:22 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	ft_initdata(t_heredoc *data)
 {
 	g_global.in_heredoc = 1;
-	data->line = NULL;
-	data->heredoc = NULL;
+	data->line = ft_calloc(1, 1);
+	data->heredoc = ft_calloc(1, 1);
 	data->listener = dup(0);
 	g_global.listener = data->listener;
 	data->fd = -1;

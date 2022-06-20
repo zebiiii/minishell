@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:42:03 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 17:36:17 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 19:39:31 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,4 @@ int	is_space(char *str)
 		i++;
 	}
 	return (0);
-}
-
-char	*get_env_and_status(char *word)
-{
-	char	*tmp;
-
-	if (!ft_strncmp(word, "?", ft_strlen(word)))
-		tmp = ft_itoa(g_global.exit_status);
-	else
-		tmp = getenv(word);
-	return (tmp);
 }

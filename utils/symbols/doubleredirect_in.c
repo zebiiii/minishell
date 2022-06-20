@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:26:27 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 21:59:31 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 20:28:08 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_firstcall(t_heredoc *data, char *limiter)
 	if (data->line == NULL || g_global.heredoc)
 	{
 		rl_redisplay();
-		free(data->line);
 		if (g_global.heredoc)
 		{
 			data->fd = -1;
@@ -29,10 +28,7 @@ int	ft_firstcall(t_heredoc *data, char *limiter)
 		return (1);
 	}
 	if (ft_strncmp(data->line, limiter, ft_strlen(limiter)) == 0)
-	{
-		free(data->line);
 		return (1);
-	}
 	return (0);
 }
 
@@ -60,38 +56,29 @@ int	ft_quitcase(t_heredoc *data)
 int	ft_heredoc(char *limiter)
 {
 	t_heredoc	*data;
-	int	i;
+	int			i;
 
 	i = 0;
 	data = ft_calloc(1, sizeof(t_heredoc *));
 	ft_initdata(data);
 	ft_openheredoc(data);
 	if (data->fd < 0)
-		return (free_symbol(data->fd, data));
+		return (free_symbol_heredoc(data->fd, data));
 	ft_putstr_fd("> ", 1);
 	if (ft_firstcall(data, limiter) == 1)
-		return (free_symbol(data->fd, data));
+		return (free_symbol_heredoc(data->fd, data));
 	while (data->line && ft_strncmp(data->line,
 			limiter, ft_strlen(limiter)) != 0)
 	{
 		if (!(ft_strncmp(data->line, limiter, ft_strlen(limiter)) == 0))
 			data->heredoc = ft_gnljoin(data->heredoc, data->line);
-		if (data->line)
-			free(data->line);
+		free(data->line);
 		ft_putstr_fd("> ", 1);
 		data->line = get_next_line(data->listener);
 		if (data->line == NULL || g_global.heredoc)
-		{
-			if (data->heredoc)
-				free(data->heredoc);
-			return (free_symbol(ft_quitcase(data), data));
-		}
+			return (handle_exit_heredoc(data));
 	}
-	data->fd = write_heredoc(data->heredoc, data->fd);
-	if (data->heredoc)
-		free(data->heredoc);
-	g_global.in_heredoc = 0;
-	return (free_symbol(data->fd, data));
+	return (end_heredoc(data));
 }
 
 // int	ft_heredoc(char *limiter)

@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 21:29:53 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 20:26:24 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,12 @@ typedef struct s_argv
 	int		type;
 	int		i;
 }				t_argv;
-
+typedef struct s_env
+{
+	int	i;
+	int	j;
+	int	k;
+}				t_env; // ======== UPDATE ====== //
 
 int     ft_pwd();
 int    ft_echo(int argc, char **argv);
@@ -167,10 +172,15 @@ char	*create_space(char *str);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
 int		is_quote_close(const char *str, char quote);
 char	*ft_strn(char const *str, int lenght);
-void    set_env(t_list **a);
+void	set_env(t_list **a, t_data data); // ======== UPDATE ====== //
 char    **lst_to_argv(t_list **head);
 char	*ft_strjoin(char *s1, char *s2);
-t_redirect    *handle_symbol(t_list **head, int len);
+t_redirect	*handle_symbol(t_list **head, int len, t_data env);// ======== UPDATE ====== //
+t_redirect	*handle_symbol_error(t_redirect *tab, int j);// ======== UPDATE ====== //
+char	*free_error(t_symbol *data, int fd);// ======== UPDATE ====== //
+void	ft_closetab(t_redirect *tab, int j);// ======== UPDATE ====== //
+int	handle_error(t_symbol *data, char *tmp, char *str);// ======== UPDATE ====== //
+int	ft_quitcase(t_heredoc *data);// ======== UPDATE ====== //
 char	*get_next_line(int fd);
 char	*ft_gnljoin(char *s1, char *s2);
 void	*ft_calloc(size_t count, size_t size);
@@ -182,11 +192,17 @@ int		get_size(t_list **head);
 char    *replace_len(char *str, char *word, int len);
 char	*ft_itoa(int n);
 int    ft_doubleredirect_in(t_list *lst);
-int    ft_doubleredirect_out(t_list *lst);
+int	ft_doubleredirect_out(t_list *lst, t_data env); // ======== UPDATE ====== //
 int ft_pipe(t_list *lst, t_redirect tab[], int j, int size);
-int    ft_redirect_in(t_list *lst);
-int    ft_redirect_out(t_list *lst);
-char    *replace_env_link(char *str);
+int    ft_redirect_in(t_list *lst, t_data env); // ======== UPDATE ====== //
+int    ft_redirect_out(t_list *lst, t_data env); // ======== UPDATE ====== //
+char	*replace_env_link(char *str, t_data env); // ======== UPDATE ====== //
+void	ft_init_env2(t_env *data); // ======== UPDATE ====== //
+void	increment(t_env *data); // ======== UPDATE ====== //
+void	increment_var(t_env *data, int len); // ======== UPDATE ====== //
+int	handle_exit_heredoc(t_heredoc *data);// ======== UPDATE ====== //
+int	end_heredoc(t_heredoc *data);// ======== UPDATE ====== //
+int	free_symbol_heredoc(int fd, t_heredoc *el);// ======== UPDATE ====== //
 char	*ft_strn(char const *str, int lenght);
 enum s_type	get_type(char *str);
 int	handle_quote(t_split *data, char const *str, int type, t_list **a);
@@ -196,7 +212,8 @@ void	ft_initdata(t_heredoc *data);
 int	write_heredoc(char *heredoc, int fd);
 void	init_stdin_stdout(t_redirect *tab, int len);
 void	ft_init_env(t_symbol *data);
-char	*get_env_and_status(char *word);
+char	*get_env_and_status(char *word, t_data data); // ======== UPDATE ====== //
+char    *ft_getenv(char *str, t_list *env); // ======== UPDATE ====== //
 void	ft_initdata_argv(t_argv *data);
 int	is_space(char *str);
 void    ft_freesplit(char **str);

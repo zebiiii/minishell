@@ -6,19 +6,19 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:25:12 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 20:45:27 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 19:59:40 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_list	*ft_init(t_redirectin *data, t_list *lst)
+t_list	*ft_init(t_redirectin *data, t_list *lst, t_data env)
 {
 	((t_cmd *)lst->content)->type = delete;
 	lst = lst->next;
 	if (!lst)
 		return (0);
-	data->arg = replace_env_link((char *)((t_cmd *)lst->content)->content);
+	data->arg = replace_env_link((char *)((t_cmd *)lst->content)->content, env);
 	if (!(data->arg))
 		return (0);
 	((t_cmd *)lst->content)->type = delete;
@@ -45,12 +45,12 @@ void	ft_open(t_redirectin *data)
 	}
 }
 
-int	ft_redirect_in(t_list *lst)
+int	ft_redirect_in(t_list *lst, t_data env)
 {
 	t_redirectin	*data;
 
 	data = ft_calloc(1, sizeof(t_redirectin *));
-	lst = ft_init(data, lst);
+	lst = ft_init(data, lst, env);
 	if (!lst)
 	{
 		ft_open(data);
@@ -58,7 +58,8 @@ int	ft_redirect_in(t_list *lst)
 	}
 	while (lst && (data->type == 8 || data->type == 9 || data->type == 10))
 	{
-		data->tmp = replace_env_link((char *)((t_cmd *)lst->content)->content);
+		data->tmp = replace_env_link(
+				(char *)((t_cmd *)lst->content)->content, env);
 		if (!(data->tmp))
 			return (free_symbol(0, data));
 		data->arg = ft_strjoin(data->arg, data->tmp);

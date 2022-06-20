@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:04:41 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 21:30:48 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 19:27:42 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ char	*ft_strjoin_quote(char *s1, char *s2)
 	pt = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 3, sizeof (char *));
 	if (pt == NULL)
 		return (NULL);
-	while(s1[++i])
+	while (s1[++i])
 		pt[i] = s1[i];
-	while(s2[++j])
+	while (s2[++j])
 	{
 		if (s2[j] == '=' && indic == 0)
 		{
 			pt[i++ + j] = '=';
 			pt[i + j] = '"';
 			indic++;
-			continue;
+			continue ;
 		}
 		pt[i + j] = s2[j];
 	}
-	if(!(s2[j]))
+	if (!(s2[j]))
 		pt[i++ + j] = '"';
 	pt[i + j] = '\0';
 	return (pt);
@@ -75,7 +75,6 @@ char	*ft_gnljoin_2(char *s1, char *s2)
 	return (pt);
 }
 
-
 char	*ft_gnljoin(char *s1, char *s2)
 {
 	char	*pt;
@@ -100,7 +99,6 @@ char	*ft_gnljoin(char *s1, char *s2)
 		j++;
 	}
 	pt[i + j] = '\0';
-	free(s1); //PROBLEMATIC
+	free(s1);
 	return (pt);
 }
-

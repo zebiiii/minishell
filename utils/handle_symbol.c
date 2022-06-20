@@ -6,32 +6,13 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 20:34:01 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 19:47:08 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_error(t_symbol *data, char *tmp, char *str)
-{
-	if (tmp == 0)
-	{
-		str = replace_len(str, "", data->j);
-		data->i++;
-		return (1);
-	}
-	if (is_space(tmp))
-		print_error("ambiguous redirect\n");
-	return (0);
-}
-
-char	*free_error(t_symbol *data, int fd)
-{
-	free(data);
-	return (0);
-}
-
-char	*replace_env_link(char *str)
+char	*replace_env_link(char *str, t_data env)
 {
 	t_symbol	*data;
 	char		*tmp;
@@ -48,7 +29,7 @@ char	*replace_env_link(char *str)
 				&& str[data->i + data->j] != '$')
 				data->j++;
 			word = ft_strn(&str[data->i + 1], data->j - 2);
-			tmp = get_env_and_status(word);
+			tmp = get_env_and_status(word, env);
 			if (handle_error(data, tmp, str))
 				return (free_error(data, 0));
 			str = replace_len(str, tmp, data->j);
@@ -60,26 +41,11 @@ char	*replace_env_link(char *str)
 	return (str);
 }
 
-int	handle_type_redirect(t_list *lst, t_redirect *tab, int type, int j)
+int	handle_heredoc(t_list *lst, t_redirect *tab, int j)
 {
-	if (type == redirect_right)
-	{
-		tab[j].out = ft_redirect_out(lst);
-		if (tab[j].out == 0)
-			return (0);
-	}
-	if (type == redirect_left)
-	{
-		tab[j].in = ft_redirect_in(lst);
-		if (tab[j].in == 0)
-			return (0);
-	}
-	if (type == double_redirect_right)
-	{
-		tab[j].out = ft_doubleredirect_out(lst);
-		if (tab[j].out == 0)
-			return (0);
-	}
+	int	type;
+
+	type = (int)((t_cmd *)lst->content)->type;
 	if (type == double_redirect_left)
 	{
 		tab[j].in = ft_doubleredirect_in(lst);
@@ -87,6 +53,32 @@ int	handle_type_redirect(t_list *lst, t_redirect *tab, int type, int j)
 			return (0);
 	}
 	return (1);
+}
+
+int	handle_type_redirect(t_list *lst, t_redirect *tab, int j, t_data env)
+{
+	int	type;
+
+	type = (int)((t_cmd *)lst->content)->type;
+	if (type == redirect_right)
+	{
+		tab[j].out = ft_redirect_out(lst, env);
+		if (tab[j].out == 0)
+			return (0);
+	}
+	if (type == redirect_left)
+	{
+		tab[j].in = ft_redirect_in(lst, env);
+		if (tab[j].in == 0)
+			return (0);
+	}
+	if (type == double_redirect_right)
+	{
+		tab[j].out = ft_doubleredirect_out(lst, env);
+		if (tab[j].out == 0)
+			return (0);
+	}
+	return (handle_heredoc(lst, tab, j));
 }
 
 int	handle_type_pipe(t_list *lst, t_redirect *tab, int j, int len)
@@ -108,39 +100,7 @@ int	handle_type_pipe(t_list *lst, t_redirect *tab, int j, int len)
 	return (1);
 }
 
-void	ft_closetab(t_redirect *tab, int j)
-{
-	int	i;
-
-	i = 0;
-	while (i <= j)
-	{
-		if (tab[i].out != 1)
-			close(tab[i].out);
-		if (tab[i].in != 0)
-			close(tab[i].in);
-		if (tab[i].st_pfd_in && tab[i].st_pfd_out)
-		{
-			close(tab[i].st_pfd_in);
-			close(tab[i].st_pfd_out);
-		}
-		if (tab[i].lst_pfd_in && tab[i].lst_pfd_out)
-		{
-			close(tab[i].lst_pfd_in);
-			close(tab[i].lst_pfd_out);
-		}
-		i++;
-	}
-}
-
-t_redirect	*handle_symbol_error(t_redirect *tab, int j)
-{
-	ft_closetab(tab, j);
-	free(tab);
-	return (NULL);
-}
-
-t_redirect	*handle_symbol(t_list **head, int len)
+t_redirect	*handle_symbol(t_list **head, int len, t_data env)
 {
 	t_list		*lst;
 	t_redirect	*tab;
@@ -160,7 +120,7 @@ t_redirect	*handle_symbol(t_list **head, int len)
 				return (handle_symbol_error(tab, j));
 			j++;
 		}
-		if (!handle_type_redirect(lst, tab, type, j))
+		if (!handle_type_redirect(lst, tab, j, env))
 			return (handle_symbol_error(tab, j));
 		lst = lst->next;
 	}

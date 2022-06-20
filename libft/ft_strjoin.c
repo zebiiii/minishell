@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:56:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 20:43:41 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 19:27:27 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strjoin_f(char *s1, char *s2)
 	int		j;
 
 	if (!s1 || !s2)
-		return NULL;
+		return (NULL);
 	str = calloc(ft_strlen(s1) + ft_strlen(s2) + 1, 1);
 	if (!str)
 		return (0);

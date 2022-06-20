@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 22:01:54 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 20:18:53 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,6 @@ int main(int argc, char **argv, char **env)
 	ft_create_export(env, &data.export_lst, &data);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-	//tty_hide_ctrl();
 	while(42)
 	{
 		i = 0;
@@ -242,10 +241,10 @@ int main(int argc, char **argv, char **env)
 		res = create_space(res);
 		ft_split_list(res, ' ', head);
 		data.size = get_size(head);
-		tab = handle_symbol(head, data.size); 
+		tab = handle_symbol(head, data.size, data); 
 		if (!tab)
 			continue; 
-		set_env(head);
+		set_env(head, data);
 		while (i < data.size)
 		{
 			cmd = lst_to_argv(head);
@@ -253,21 +252,16 @@ int main(int argc, char **argv, char **env)
 			if (!cmd[0] && tab[i].lst_pfd_in)
 				close(tab[i].lst_pfd_in);
 			if (cmd[0] != 0 && g_global.indicateur == 0)
-			{
 				pid = kangourou(cmd, env, &tab[i], &data);
-				free(cmd);
-			}
 			i++;
 		}
 		unlink(".heredoc");
         status = ft_wait(&pid);
 		ft_check_status(&status);
-		free(tab);
-		//ft_freesplit(cmd);
 	}
-		//ft_lstclear(data.head_export, &del_2);
-		//ft_lstclear(data.head_env, &del_3);
-		system("leaks minishell | grep leaked");
+		ft_lstclear(data.head_export, &del_2);
+		ft_lstclear(data.head_env, &del_3);
+		//system("leaks minishell | grep leaked");
 	return (0);
 }
 

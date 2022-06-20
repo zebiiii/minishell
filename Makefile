@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/17 13:37:45 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/20 19:55:28 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,10 +40,13 @@ SRCS	= 	main.c \
 			utils/get_size.c \
 			utils/ft_strn.c \
 			utils/misc.c \
+			utils/env_misc.c \
+			utils/misc_symbol.c \
 			utils/handle_quote/handle_quote.c \
 			utils/init/init.c \
 			utils/ft_putchar_fd.c \
 			utils/ft_strlen2d.c \
+			utils/ft_getenv.c \
 			exec/kangourou.c \
 			libft/ft_lstadd_back.c \
 			libft/ft_lstadd_front.c \
@@ -66,8 +69,8 @@ OBJS	= ${SRCS:.c=.o}
 
 HEADER	= minishell.h
 
-LIBS	=	-L/Users/ffiliz/.brew/opt/readline/lib -lreadline
-HEADERS	=	-I$(HEADER) -I/Users/ffiliz/.brew/opt/readline/include
+LIBS	=	-L/Users/mgoudin/.brew/opt/readline/lib -lreadline
+HEADERS	=	-I$(HEADER) -I/Users/mgoudin/.brew/opt/readline/include
 
 CC		= gcc
 RM		= rm -f

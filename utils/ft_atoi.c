@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 18:55:37 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 18:58:36 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/20 19:30:05 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ long long	ft_atoi_exit_case(char *str)
 {
 	unsigned int	i;
 	int				sign;
-	long long				res;
+	long long		res;
 
 	i = 0;
 	sign = 1;
