@@ -12,6 +12,33 @@
 
 #include "../minishell.h"
 
+long long	ft_atoi_exit_case(char *str)
+{
+	unsigned int	i;
+	int				sign;
+	long long				res;
+
+	i = 0;
+	sign = 1;
+	res = 0;
+	while (str[i] && ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13)))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
+	{
+		if (res > res * 10 + str[i] - '0')
+			ft_exit_char();
+		res = res * 10 + str[i++] - '0';
+	}
+	return (res * sign);
+}
+
+
 int	ft_atoi(char *str)
 {
 	int	i;

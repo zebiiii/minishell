@@ -23,7 +23,9 @@ SRCS	= 	main.c \
 			utils/error.c \
 			utils/ft_atoi.c \
 			utils/ft_putstr_fd.c \
+			utils/ft_putchar_fd.c \
 			utils/ft_strlen.c \
+			utils/ft_strlen2d.c \
 			utils/create_space.c \
 			utils/quote.c \
 			utils/set_env.c \
@@ -57,14 +59,14 @@ SRCS	= 	main.c \
 			libft/ft_gnljoin.c \
 			libft/ft_calloc.c \
 			libft/ft_bzero.c \
-			libft/ft_itoa.c
+			libft/ft_itoa.c \
 
 OBJS	= ${SRCS:.c=.o}
 
 HEADER	= minishell.h
 
-LIBS	=	-L/Users/mgoudin/.brew/opt/readline/lib -lreadline
-HEADERS	=	-I$(HEADER) -I/Users/mgoudin/.brew/opt/readline/include
+LIBS	=	-L/Users/ffiliz/.brew/opt/readline/lib -lreadline
+HEADERS	=	-I$(HEADER) -I/Users/ffiliz/.brew/opt/readline/include
 
 CC		= gcc
 RM		= rm -f

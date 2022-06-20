@@ -147,6 +147,7 @@ char	*ft_strn(char const *str, int lenght);
 void    set_env(t_list **a);
 char    **lst_to_argv(t_list **head);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin_f(char *s1, char *s2);
 t_redirect    *handle_symbol(t_list **head, int len);
 char	*get_next_line(int fd);
 char	*ft_gnljoin(char *s1, char *s2);
@@ -182,7 +183,7 @@ void	count_symbol(t_data *data, char *str);
 int free_symbol(int fd, void *el);
 char	*ft_gnljoin2(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
-
+int 	ft_exit_case(char **status);
 size_t	ft_strlen2d(char **s);
 int		ft_env(t_list *lst);
 void	ft_putstr_2(char **arg, char *msg);
@@ -219,4 +220,13 @@ int    ft_del_equal(char *argv, t_data *data, t_list *lst);
 int ft_check_option_unset(char *argv);
 int ft_unset(char **argv, t_data *data);
 void    ft_freesplit(char **str);
+long long	ft_atoi_exit_case(char *str);
+void	ft_putchar_fd(char c, int fd);
+size_t	ft_strlen2d(char **s);
+int ft_check_exit(char *arg);
+void    ft_exit_arg(void);
+int    ft_echo(int argc, char **argv);
+int    ft_cd(char **argv);
+
+
 #endif

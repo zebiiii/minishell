@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+
+
 int	ft_putstr_fd(char *str, int fd)
 {
 	int	i;

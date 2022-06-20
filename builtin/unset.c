@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 int ft_check_option_unset(char *argv)
 {
     if (argv[0] == '-' && argv[1])
@@ -15,13 +14,11 @@ int    ft_del_env(char *argv, t_data *data, t_list *lst)
 {
     int i;
     t_list *current;
-    t_list *scd;
     t_list *before;
     char    *tmp;
 
     i = 0;
     current = lst;
-    scd = data->env_lst;
     before = current;
     if (lst)
     {
@@ -38,6 +35,7 @@ int    ft_del_env(char *argv, t_data *data, t_list *lst)
                     else
                         before->next = current->next;
                     free(current);
+                    free(tmp);
                     return(1);
                 }
                 free(tmp);
@@ -54,13 +52,11 @@ int    ft_del_equal(char *argv, t_data *data, t_list *lst)
 {
     int i;
     t_list *current;
-    t_list *scd;
     t_list *before;
     char    *tmp;
 
     i = 0;
     current = lst;
-    scd = data->env_lst;
     before = current;
     if (lst)
     {
@@ -78,6 +74,7 @@ int    ft_del_equal(char *argv, t_data *data, t_list *lst)
                         before->next = current->next;
                     free(current->content);
                     free(current);
+                    free(tmp);
                     return(1);
                 }
                 free(tmp);
@@ -110,7 +107,7 @@ int ft_check_eq(char *argv, t_data *data)
                 return(ft_exit_export(": not a valid identifier\n", argv));
         }
     }
-    tmp = ft_strjoin("declare -x ", argv);
+    tmp = ft_strjoin_f("declare -x ", argv);
     if (ft_del_equal(tmp, data, data->export_lst) == 1)
     {
         free(tmp);

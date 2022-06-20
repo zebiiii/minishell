@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+
+
 void	print_lst(t_list *lst)
 {
 	while (lst)
@@ -94,7 +96,7 @@ void    ft_create_export(char **env, t_list **first, t_data *data)
 	list = *first;
 	while (list)
 	{
-        list->content = ft_strjoin("declare -x ", (char *)list->content);
+        list->content = ft_strjoin_f("declare -x ", (char *)list->content);
 		list = list->next;
 		i++;
 	}
@@ -251,6 +253,7 @@ int main(int argc, char **argv, char **env)
 		while (i < size)
 		{
 			arg = lst_to_argv(head);
+			bt_before_fork(arg, &data, data.export_lst, data.size);
 			if (!arg[0] && tab[i].lst_pfd_in)
 				close(tab[i].lst_pfd_in);
 			if (arg[0] != 0)
@@ -263,11 +266,10 @@ int main(int argc, char **argv, char **env)
 		unlink(".heredoc");
         status = ft_wait(&pid);
 		ft_check_status(&status);
-		//ft_freesplit(arg);
-		//ft_lstclear(data.head_export, &del_2);
-		//ft_lstclear(head, &del);
-		//ft_lstclear(data.head_env, &del_3);
 	}
+		ft_lstclear(data.head_export, &del_2);
+		ft_lstclear(head, &del);
+		ft_lstclear(data.head_env, &del_3);
 	return (0);
 }
 

@@ -93,7 +93,7 @@ int    ft_add_to_export(char *argv, t_list *lst, t_data *data)
 {
     char *tmp;
 
-    tmp = ft_strjoin("declare -x ", argv);
+    tmp = ft_strjoin_f("declare -x ", argv);
     if (!tmp)
         return (-1);
     if (ft_check_content(tmp, lst, data) != 1)
@@ -176,6 +176,7 @@ int ft_fusion_equal(char *tmp, t_list *lst, char *str)
                     if (first->content)
                         free(first->content);
                     first->content = str;
+                    free(tmp2);
                     return(1);
                 }
             }
@@ -216,8 +217,6 @@ int ft_fusion(char *argv, t_list *lst, t_data *data)
             ft_lstadd_back(data->head_env, ft_lstnew(argv_copie));
         if (tmp2)
             free(tmp2);
-        if (argv_copie)
-            free(argv_copie);
     }
     ft_lstsize(lst);
     ft_lstsize(data->env_lst);
