@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/29 17:58:08 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/16 16:01:44 by mgoudin          ###   ########.fr       */
+/*   Created: 2022/06/21 00:22:12 by ffiliz            #+#    #+#             */
+/*   Updated: 2022/06/21 00:22:19 by ffiliz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd(void)
+char	*ft_strdup(char *s1)
 {
-	char	cwd[1024];
+	size_t	i;
+	char	*pt;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	i = 0;
+	pt = malloc(sizeof (char) * ft_strlen(s1) + 1);
+	if (!pt)
+		return (NULL);
+	while (s1[i])
 	{
-		ft_putstr_fd(cwd, 1);
-		ft_putstr_fd("\n", 1);
-		exit(EXIT_SUCCESS);
+		pt[i] = s1[i];
+		i++;
 	}
-	else
-	{
-		ft_putstr_fd("error\n", 1);
-		exit(EXIT_FAILURE);
-	}
-	return (0);
+	pt[i] = '\0';
+	return (pt);
 }

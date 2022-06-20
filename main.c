@@ -81,15 +81,15 @@ void    sig_handler(int signo)
 	}
 }
 
-void    ft_create_export(char **env, t_list **first, t_data *data)
+void    ft_create_export(t_list **first, t_data *data)
 {
     int i;
 	t_list *list;
 
     i = 0;
     *first = NULL;
-    while (env[i])
-        ft_lstadd_back(first, ft_lstnew(env[i++]));
+	while (data->export_dup[i])
+		ft_lstadd_back(first, ft_lstnew(data->env_dup[i++]));
 	i = 0;
 	list = *first;
 	while (list)
@@ -100,14 +100,14 @@ void    ft_create_export(char **env, t_list **first, t_data *data)
 	}
 }
 
-void    ft_create_env(char **env, t_list **first, t_data *data)
+void    ft_create_env(t_list **first, t_data *data)
 {
     int i;
 
     i = 0;
     *first = NULL;
-    while (env[i])
-    	ft_lstadd_back(first, ft_lstnew(env[i++]));
+    while (data->env_dup[i])
+    	ft_lstadd_back(first, ft_lstnew(data->env_dup[i++]));
 	data->lst_size = i;
 }
 
@@ -199,6 +199,19 @@ void ft_check_status(int *status)
     	g_global.exit_status = *status;
 }
 
+void	ft_dup_env(char **env, t_data *data)
+{
+	data->env_dup = ft_strdup2d(env);
+	data->export_dup = ft_strdup2d(env);
+}
+
+void	init_env(char **env, t_data *data)
+{
+	ft_dup_env(env, data);
+	ft_create_env(data->head_env, data);
+	ft_create_export(data->head_export, data);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	t_list	*lst;
@@ -216,8 +229,7 @@ int main(int argc, char **argv, char **env)
 	data.head_export = &data.export_lst; 
 	status = 0;
 	g_global.exit_status = 0;
-	ft_create_env(env, &data.env_lst, &data);
-	ft_create_export(env, &data.export_lst, &data);
+	init_env(env, &data);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while(42)

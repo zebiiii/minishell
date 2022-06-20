@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 15:03:10 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/20 15:03:58 by ffiliz           ###   ########.fr       */
+/*   Created: 2022/06/21 00:22:24 by ffiliz            #+#    #+#             */
+/*   Updated: 2022/06/21 00:22:31 by ffiliz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_cd(char **argv)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-	char	*s;
+	size_t	i;
+	char	*str;
 
-	s = getcwd(NULL, 0);
-	printf("%s\n", s);
-	if (!argv[0])
+	i = 0;
+	if (!s || len <= 0 || start >= ft_strlen(s))
+		return (ft_strdup(""));
+	if (len > ft_strlen(s))
+		return (ft_strdup((char *)s + start));
+	str = (char *)malloc(sizeof(char) * len + 1);
+	if (!str)
+		return (NULL);
+	while (i < len)
 	{
-		if (chdir(argv[0]) == -1)
-		{
-			ft_putstr_fd("no such file or directory", 2);
-			exit(EXIT_FAILURE);
-		}
+		str[i] = s[start];
+		i++;
+		start++;
 	}
-	s = getcwd(NULL, 0);
-	printf("%s\n", s);
-	return (0);
+	str[i] = '\0';
+	return (str);
 }

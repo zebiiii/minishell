@@ -46,6 +46,15 @@ typedef enum s_type {
 	delete,
 }					t_type;
 
+typedef struct	s_echo
+{
+	int	j;
+	int	indic;
+	int	indic2;
+	int	len;
+	int	with_option;
+}	t_echo;
+
 typedef struct s_redirect
 {
 	int	in;
@@ -73,14 +82,20 @@ typedef struct s_data
 	struct s_redirect	*redir;
 	t_list		*env_lst;		//a free
 	t_list		*export_lst;	//a free
+	t_list		*current;
+	t_list		*before;
 	t_list		**head_env;
 	t_list		**head_export;
+	char		*tmp;
 	int		size;
 	int		lst_size;
 	int		i;
 	int		j;
 	int		k;
 	char	**array;
+	char	**export_dup;
+	char	**env_dup;
+
 }	t_data;
 
 typedef struct s_matt
@@ -103,6 +118,7 @@ typedef struct s_g
 	int	listener;
 	int	in_heredoc;
 	int	indicateur;
+	int balance;
 }					t_g;
 
 t_g		g_global;
@@ -148,7 +164,7 @@ typedef struct s_env
 
 int     ft_pwd();
 int    ft_echo(int argc, char **argv);
-int		ft_check_option(char **argv);
+int		ft_check_option(char **argv, t_echo *var);
 int    ft_cd(char **argv);
 char	**ft_split(char const *s, char c);
 
@@ -235,14 +251,6 @@ void    exec(char **cmd, char **env, t_exec *var, t_data *data);
 void    exec_case(char **cmd, char **env, t_exec *var, t_data *data);
 int ft_check_cmd(char **cmd, char **env, t_exec *var);
 void	ft_close(t_redirect *tab);
-
-
-
-
-
-
-
-
 void	ft_init_space(t_matt *data);
 int	count_char(char *str);
 void	count_symbol(t_matt *data, char *str);
@@ -257,8 +265,8 @@ char	*ft_strjoin_f(char *s1, char *s2);
 void del_2(void*el);
 void del_3(void*el);
 int	bt_before_fork(char **cmd, t_data *data, t_list *lst, int size);
-void    ft_create_env(char **env, t_list **first, t_data *data);
-void    ft_create_export(char **env, t_list **first, t_data *data);
+void    ft_create_env(t_list **first, t_data *data);
+void    ft_create_export(t_list **first, t_data *data);
 void ft_check_status(int *status);
 int ft_unset(char **argv, t_data *data);
 int    ft_check_unset(char *argv, t_data *data);
@@ -285,6 +293,17 @@ void    ft_exit_char(void);
 void    ft_exit_arg(void);
 int ft_check_exit(char *arg);
 int	ft_env(t_list *lst);
+
+//NEW FUFU
+void	init_var_echo(t_echo *var);
+int		split_ft(char c, t_echo *var);
+char	**ft_strdup2d(char **s1);
+void	ft_dup_env(char **env, t_data *data);
+void	init_env(char **env, t_data *data);
+int		ft_exit_unset(char *str, char *argv);
+void	become(t_data *data);
+void	free_triple(t_data *data);
+int		analyse_str(char c);
 
 
 

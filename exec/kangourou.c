@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 13:36:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/14 18:15:13 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 00:31:30 by ffiliz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,21 +109,21 @@ char	**ft_split(char const *s, char c)
 	return (tab);
 }
 
-void    ft_freesplit(char **str)
+void	ft_freesplit(char **str)
 {
-        int     i;
+	int	i;
 
-        i = 0;
-        if (!str)
-                return ;
-        while (str[i])
-        {
-			if (str[i])
-                free(str[i]);
-            i++;
-        }
-		if (str)
-        	free(str);
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		if (str[i])
+			free(str[i]);
+		i++;
+	}
+	if (str)
+		free(str);
 }
 
 void	*ft_memset(void *b, int c, size_t len)
@@ -141,14 +141,14 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (dst);
 }
 
-void    ft_quit_with_msg(char *s1, char *s2, int exit_status, t_exec *var)
+void	ft_quit_with_msg(char *s1, char *s2, int exit_status, t_exec *var)
 {
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd(s2, 2);
-	exit(exit_status);
+	exit(e_status);
 }
 
-void    ft_msg(char *s1, char *s2, int exit_status, t_exec *var)
+void	ft_msg(char *s1, char *s2, int exit_status, t_exec *var)
 {
 	ft_putstr_fd(s1, 2);
 	ft_putstr_fd(s2, 2);
@@ -188,7 +188,7 @@ void	ft_dup(t_redirect *tab, t_exec *var)
 		ft_quit_with_msg(NULL, "", 2, var);
 }
 
-int    grep_path(char **env, t_exec *var)
+int	grep_path(char **env, t_exec *var)
 {
 	var->index_env = 0;
 	if (env)
@@ -202,18 +202,18 @@ int    grep_path(char **env, t_exec *var)
 		}
 		return (-1);
 	}
-	return(-1);
+	return (-1);
 }
 
-int ft_check_path(char **cmd, char **env, t_exec *var)
+int	ft_check_path(char **cmd, char **env, t_exec *var)
 {
-    int access_return;
+	int	access_return;
 
-    access_return = 1;
-    var->index_path = 0;
-    while (env[var->index_path] && access_return != 0)
-    {
-        var->slash_join = ft_charjoin_lst(env[var->index_path], '/');
+	access_return = 1;
+	var->index_path = 0;
+	while (env[var->index_path] && access_return != 0)
+	{
+		var->slash_join = ft_charjoin_lst(env[var->index_path], '/');
 		var->path = ft_gnljoin(var->slash_join, *cmd);
 		access_return = access(var->path, F_OK | X_OK);
 		free(var->path);
@@ -225,7 +225,9 @@ int ft_check_path(char **cmd, char **env, t_exec *var)
 
 void	ft_putstr_2(char **arg, char *msg)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (arg[i])
 	{
 		ft_putstr_fd(msg, 2);
@@ -239,20 +241,20 @@ int	parce_builtin(char **cmd, char **env, t_data *data)
 	if ((ft_strlen(cmd[0]) == 4) && 
 		(ft_strncmp("echo", cmd[0], 4) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 2) &&
-		(ft_strncmp("cd", cmd[0], 2) == 0))
+	else if ((ft_strlen(cmd[0]) == 2) 
+		&& (ft_strncmp("cd", cmd[0], 2) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 3) &&
-		(ft_strncmp("pwd", cmd[0], 3) == 0))
+	else if ((ft_strlen(cmd[0]) == 3) 
+		&& (ft_strncmp("pwd", cmd[0], 3) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 5) &&
-		(ft_strncmp("unset", cmd[0], 5) == 0))
+	else if ((ft_strlen(cmd[0]) == 5)
+		&& (ft_strncmp("unset", cmd[0], 5) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 6) &&
-		(ft_strncmp("export", cmd[0], 6) == 0))
+	else if ((ft_strlen(cmd[0]) == 6)
+		&& (ft_strncmp("export", cmd[0], 6) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 4) &&
-		(ft_strncmp("exit", cmd[0], 4) == 0))
+	else if ((ft_strlen(cmd[0]) == 4)
+		&& (ft_strncmp("exit", cmd[0], 4) == 0))
 		return (1);
 	else
 		return (0);
@@ -260,14 +262,14 @@ int	parce_builtin(char **cmd, char **env, t_data *data)
 
 int	parce_builtin_2(char **cmd, char **env, t_data *data)
 {
-	if ((ft_strlen(cmd[0]) == 9) &&
-		(ft_strncmp("/bin/echo", cmd[0], 9) == 0))
+	if ((ft_strlen(cmd[0]) == 9)
+		&& (ft_strncmp("/bin/echo", cmd[0], 9) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 11) && 
-		(ft_strncmp("/usr/bin/cd", cmd[0], 11) == 0))
+	else if ((ft_strlen(cmd[0]) == 11)
+		&& (ft_strncmp("/usr/bin/cd", cmd[0], 11) == 0))
 		return (1);
-	else if ((ft_strlen(cmd[0]) == 8) && 
-		(ft_strncmp("/bin/pwd", cmd[0], 8) == 0))
+	else if ((ft_strlen(cmd[0]) == 8)
+		&& (ft_strncmp("/bin/pwd", cmd[0], 8) == 0))
 		return (1);
 	else
 		return (0);
@@ -275,20 +277,20 @@ int	parce_builtin_2(char **cmd, char **env, t_data *data)
 
 void	manage_builtin_part_1(char **cmd, char **env, t_data *data)
 {
-	int e;
+	int	e;
 
 	e = 0;
-	if ((ft_strlen(cmd[0]) == 4) && 
-		(ft_strncmp("echo", cmd[0], 4) == 0))
+	if ((ft_strlen(cmd[0]) == 4)
+		&& (ft_strncmp("echo", cmd[0], 4) == 0))
 		ft_echo(ft_strlen2d(cmd), cmd + 1);
-	else if ((ft_strlen(cmd[0]) == 2) &&
-		(ft_strncmp("cd", cmd[0], 2) == 0))
+	else if ((ft_strlen(cmd[0]) == 2)
+		&& (ft_strncmp("cd", cmd[0], 2) == 0))
 		ft_cd(cmd);
-	else if ((ft_strlen(cmd[0]) == 3) &&
-		(ft_strncmp("pwd", cmd[0], 3) == 0))
+	else if ((ft_strlen(cmd[0]) == 3)
+		&& (ft_strncmp("pwd", cmd[0], 3) == 0))
 		ft_pwd();
-	else if ((ft_strlen(cmd[0]) == 3) &&
-		(ft_strncmp("env", cmd[0], 3) == 0))
+	else if ((ft_strlen(cmd[0]) == 3)
+		&& (ft_strncmp("env", cmd[0], 3) == 0))
 	{
 		if (cmd[1])
 		{
@@ -305,7 +307,7 @@ void	manage_builtin_part_1(char **cmd, char **env, t_data *data)
 
 void	manage_builtin_part_2(char **cmd, char **env, t_data *data)
 {
-	int e;
+	int	e;
 
 	e = 0;
 	if ((ft_strlen(cmd[0]) == 4) && (ft_strncmp("exit", cmd[0], 4) == 0))
@@ -337,18 +339,22 @@ int	ft_chech_builtin(char **cmd, char **env, t_data *data)
 
 int	ft_chech_builtin_case(char **cmd, char **env, t_exec *var, t_data *data)
 {
-	if ((ft_strlen(cmd[0]) == 9) && (ft_strncmp("/bin/echo", cmd[0], 9) == 0))
+	if ((ft_strlen(cmd[0]) == 9)
+		&& (ft_strncmp("/bin/echo", cmd[0], 9) == 0))
 		ft_echo(ft_strlen2d(cmd), cmd + 1);
-	else if ((ft_strlen(cmd[0]) == 11) && (ft_strncmp("/usr/bin/cd", cmd[0], 11) == 0))
+	else if ((ft_strlen(cmd[0]) == 11)
+		&& (ft_strncmp("/usr/bin/cd", cmd[0], 11) == 0))
 		ft_cd(cmd);
-	else if ((ft_strlen(cmd[0]) == 8) && (ft_strncmp("/bin/pwd", cmd[0], 8) == 0))
+	else if ((ft_strlen(cmd[0]) == 8)
+		&& (ft_strncmp("/bin/pwd", cmd[0], 8) == 0))
 		ft_pwd();
-	else if ((ft_strlen(cmd[0]) == 12) && (ft_strncmp("/usr/bin/env", cmd[0], 12) == 0))
+	else if ((ft_strlen(cmd[0]) == 12)
+		&& (ft_strncmp("/usr/bin/env", cmd[0], 12) == 0))
 		ft_env(data->env_lst);
 	return (0);
 }
 
-void    exec(char **cmd, char **env, t_exec *var, t_data *data)
+void	exec(char **cmd, char **env, t_exec *var, t_data *data)
 {
 	ft_chech_builtin(cmd, env, data);
 	var->path = NULL;
@@ -369,7 +375,7 @@ void    exec(char **cmd, char **env, t_exec *var, t_data *data)
 		ft_quit_with_msg(cmd[0], ": command not found\n", 127, var);
 }
 
-void    exec_case(char **cmd, char **env, t_exec *var, t_data *data)
+void	exec_case(char **cmd, char **env, t_exec *var, t_data *data)
 {
 	ft_chech_builtin_case(cmd, env, var, data);
 	if (execve(cmd[0], cmd, env) == -1)
@@ -378,7 +384,7 @@ void    exec_case(char **cmd, char **env, t_exec *var, t_data *data)
 		ft_quit_with_msg(cmd[0], ": command not found\n", 127, var);
 }
 
-int ft_check_cmd(char **cmd, char **env, t_exec *var)
+int	ft_check_cmd(char **cmd, char **env, t_exec *var)
 {
 	if (cmd[0][0] == '/')
 	{
@@ -400,18 +406,18 @@ void	ft_close(t_redirect *tab)
 		close(tab->out);
 }
 
-int kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
+int	kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
 {
-    int pid;
-    int cas;
-	int indic;
-	t_exec var;
+	int		pid;
+	int		cas;
+	int		indic;
+	t_exec	var;
 
 	indic = 0;
 	cas = 0;
-    if (ft_check_cmd(cmd, env, &var) == 1)
+	if (ft_check_cmd(cmd, env, &var) == 1)
 		cas++;
-	if (parce_builtin(cmd, env, data) == 1 
+	if (parce_builtin(cmd, env, data) == 1
 		|| parce_builtin_2(cmd, env, data) == 1)
 		indic++;
 	if (grep_path(env, &var) != -1 || indic != 0)
@@ -435,5 +441,5 @@ int kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
 	}
 	else
 		ft_msg(cmd[0], ": No such file or directory\n", 127, &var);
-	return(pid);
+	return (pid);
 }

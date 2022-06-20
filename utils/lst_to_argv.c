@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 12:28:23 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/17 20:41:00 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 00:21:29 by ffiliz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_list	*ft_iterargv(t_list *lst, t_argv *data)
 {
 	while (lst && (data->type == 8 || data->type == 9 || data->type == 10))
 	{
-		data->res = ft_strjoin(data->res,
+		data->res = ft_strjoin_f(data->res,
 				(char *)((t_cmd *)lst->content)->content);
 		((t_cmd *)lst->content)->type = delete;
 		lst = lst->next;

@@ -34,6 +34,7 @@ int	free_symbol_heredoc(int fd, t_heredoc *el)
 
 int	handle_exit_heredoc(t_heredoc *data)
 {
+	free(data->line);
 	free(data->heredoc);
 	return (free_symbol(ft_quitcase(data), data));
 }
@@ -41,6 +42,7 @@ int	handle_exit_heredoc(t_heredoc *data)
 int	end_heredoc(t_heredoc *data)
 {
 	data->fd = write_heredoc(data->heredoc, data->fd);
+	free(data->line);
 	free(data->heredoc);
 	g_global.in_heredoc = 0;
 	return (free_symbol(data->fd, data));

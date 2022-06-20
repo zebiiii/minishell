@@ -18,8 +18,11 @@ SRCS	= 	main.c \
 			builtin/cd.c \
 			builtin/echo.c \
 			builtin/export.c \
+			builtin/export_part2.c \
+			builtin/export_part3.c \
 			builtin/exit.c \
 			builtin/unset.c \
+			builtin/unset_part2.c \
 			builtin/env.c \
 			utils/error.c \
 			utils/ft_atoi.c \
@@ -46,6 +49,7 @@ SRCS	= 	main.c \
 			utils/init/init.c \
 			utils/ft_putchar_fd.c \
 			utils/ft_strlen2d.c \
+			utils/ft_strdup2d.c \
 			utils/ft_getenv.c \
 			exec/kangourou.c \
 			libft/ft_lstadd_back.c \
@@ -63,14 +67,17 @@ SRCS	= 	main.c \
 			libft/ft_gnljoin.c \
 			libft/ft_calloc.c \
 			libft/ft_bzero.c \
-			libft/ft_itoa.c
+			libft/ft_itoa.c \
+			libft/ft_strcmp.c \
+			libft/ft_strdup.c \
+			libft/ft_substr.c
 
 OBJS	= ${SRCS:.c=.o}
 
 HEADER	= minishell.h
 
-LIBS	=	-L/Users/mgoudin/.brew/opt/readline/lib -lreadline
-HEADERS	=	-I$(HEADER) -I/Users/mgoudin/.brew/opt/readline/include
+LIBS	=	-L/Users/ffiliz/.brew/opt/readline/lib -lreadline
+HEADERS	=	-I$(HEADER) -I/Users/ffiliz/.brew/opt/readline/include
 
 CC		= gcc
 RM		= rm -f
