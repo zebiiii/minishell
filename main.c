@@ -6,13 +6,11 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/19 18:34:49 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 22:01:54 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	print_lst(t_list *lst)
 {
@@ -145,7 +143,6 @@ int is_empty(t_list *lst)
 	}
 	return (1);
 }
-
 int	bt_before_fork(char **cmd, t_data *data, t_list *lst, int size)
 {
 	int i;
@@ -204,21 +201,20 @@ void ft_check_status(int *status)
 
 int main(int argc, char **argv, char **env)
 {
-	char    *res;
 	t_list	*lst;
 	t_list	**head;
-	int     size;
-	int     i;
-	t_redirect *tab;
-	int pid;
-	int status;
-	char **arg;
 	t_data	data;
+	t_redirect *tab;
+	int     i;
+	int 	pid;
+	int 	status;
+	char    *res;
+	char 	**cmd;
 	
-	status = 0;
+	head = &lst;
 	data.head_env = &data.env_lst;
 	data.head_export = &data.export_lst; 
-	head = &lst;
+	status = 0;
 	g_global.exit_status = 0;
 	ft_create_env(env, &data.env_lst, &data);
 	ft_create_export(env, &data.export_lst, &data);
@@ -230,7 +226,7 @@ int main(int argc, char **argv, char **env)
 		i = 0;
 		g_global.indicateur = 0;
 		if (g_global.indicateur == 0)
-			ft_lstclear(head, &del); 
+			ft_lstclear(head, &del);
 		g_global.qlf = 0;
 		g_global.heredoc = 0;
 		g_global.in_heredoc = 0;
@@ -245,31 +241,33 @@ int main(int argc, char **argv, char **env)
 		add_history(res);
 		res = create_space(res);
 		ft_split_list(res, ' ', head);
-		size = get_size(head);
-		tab = handle_symbol(head, size); 
+		data.size = get_size(head);
+		tab = handle_symbol(head, data.size); 
 		if (!tab)
 			continue; 
 		set_env(head);
-		while (i < size)
+		while (i < data.size)
 		{
-			arg = lst_to_argv(head);
-			bt_before_fork(arg, &data, data.export_lst, data.size);
-			if (!arg[0] && tab[i].lst_pfd_in)
+			cmd = lst_to_argv(head);
+			bt_before_fork(cmd, &data, data.export_lst, data.size);
+			if (!cmd[0] && tab[i].lst_pfd_in)
 				close(tab[i].lst_pfd_in);
-			if (arg[0] != 0)
+			if (cmd[0] != 0 && g_global.indicateur == 0)
 			{
-				pid = kangourou(arg, env, &tab[i], &data);
-				free(arg);
+				pid = kangourou(cmd, env, &tab[i], &data);
+				free(cmd);
 			}
 			i++;
 		}
 		unlink(".heredoc");
         status = ft_wait(&pid);
 		ft_check_status(&status);
+		free(tab);
+		//ft_freesplit(cmd);
 	}
-		ft_lstclear(data.head_export, &del_2);
-		ft_lstclear(head, &del);
-		ft_lstclear(data.head_env, &del_3);
+		//ft_lstclear(data.head_export, &del_2);
+		//ft_lstclear(data.head_env, &del_3);
+		system("leaks minishell | grep leaked");
 	return (0);
 }
 

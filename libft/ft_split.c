@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_list.c                                    :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 17:21:19 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/19 15:06:53 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/17 14:04:02 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "../minishell.h"
 
 int	ft_accuracy(char const *str, char c)
@@ -79,5 +80,6 @@ void	ft_split_list(char const *str, char c, t_list **a)
 		else
 			data->i++;
 	}
+	//free((char *)str);
 	free(data);
 }

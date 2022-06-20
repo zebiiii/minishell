@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 13:36:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/09 17:51:32 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/14 18:15:13 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -437,5 +437,3 @@ int kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
 		ft_msg(cmd[0], ": No such file or directory\n", 127, &var);
 	return(pid);
 }
-
-/* HOME NO SET*/

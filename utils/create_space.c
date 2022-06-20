@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	count_symbol(t_data *data, char *str)
+void	count_symbol(t_matt *data, char *str)
 {
 	if (str[data->i - 1] == '|')
 		data->j++;
@@ -26,7 +26,7 @@ void	count_symbol(t_data *data, char *str)
 		data->j++;
 }
 
-void	add_symbol(t_data *data, char *str, char *res)
+void	add_symbol(t_matt *data, char *str, char *res)
 {
 	if (str[data->i - 1] == '|')
 		res[data->i + data->j++] = ' ';
@@ -40,7 +40,7 @@ void	add_symbol(t_data *data, char *str, char *res)
 		res[data->i + data->j++] = ' ';
 }
 
-int	handle_stopcpy(t_data *data, char *str)
+int	handle_stopcpy(t_matt *data, char *str)
 {
 	int	stopcpy;
 
@@ -56,10 +56,10 @@ char	*create_space(char *str)
 {
 	char	*res;
 	int		stop_cpy;
-	t_data	*data;
+	t_matt	*data;
 
 	res = ft_calloc(count_char(str) + 1, 1);
-	data = ft_calloc(1, sizeof(t_data *));
+	data = ft_calloc(1, sizeof(t_matt *));
 	ft_init_space(data);
 	stop_cpy = 0;
 	while (str[data->i])

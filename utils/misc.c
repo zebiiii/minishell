@@ -40,7 +40,7 @@ int	write_heredoc(char *heredoc, int fd)
 	return (fd);
 }
 
-int	count_char_return(t_data *data)
+int	count_char_return(t_matt *data)
 {
 	int	tmp;
 
@@ -51,10 +51,10 @@ int	count_char_return(t_data *data)
 
 int	count_char(char *str)
 {
-	t_data	*data;
+	t_matt	*data;
 	int		stop_count;
 
-	data = ft_calloc(1, sizeof(t_data *));
+	data = ft_calloc(1, sizeof(t_matt *));
 	ft_init_space(data);
 	stop_count = 0;
 	while (str[data->i])

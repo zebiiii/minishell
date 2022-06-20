@@ -45,7 +45,7 @@ void	init_stdin_stdout(t_redirect *tab, int len)
 	}
 }
 
-void	ft_init_space(t_data *data)
+void	ft_init_space(t_matt *data)
 {
 	data->i = 0;
 	data->j = 0;

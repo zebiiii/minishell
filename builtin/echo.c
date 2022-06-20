@@ -62,9 +62,3 @@ int    ft_echo(int argc, char **argv)
         write(1, "\n", 1);
     exit(EXIT_SUCCESS);
 }
-
-/*int main(int argc, char **argv, char **env)
-{
-    echo(argc, argv + 1, env);
-    return (0);
-}*/

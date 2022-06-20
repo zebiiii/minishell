@@ -204,8 +204,6 @@ int ft_fusion(char *argv, t_list *lst, t_data *data)
         ft_lstadd_back(data->head_export, ft_lstnew((char *)tmp));
         if (data->head_env)
             ft_lstadd_back(data->head_env, ft_lstnew(argv_copie));
-        if (argv_copie)
-            free(argv_copie);
     }
     else
     {

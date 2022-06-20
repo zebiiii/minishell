@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 15:40:39 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/19 15:36:47 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/16 17:51:05 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ int	ft_pipe(t_list *lst, t_redirect tab[], int j, int size)
 		g_global.exit_status = 1;
 		return (0);
 	}
-	if (tab[j].out == 1)
-		tab[j].out = pfd[1];
+	tab[j].out = pfd[1];
 	tab[j].lst_pfd_in = pfd[1];
 	tab[j].lst_pfd_out = pfd[0];
 	if (j + 1 < size)
 	{
-		if (tab[j].in == 0)
-			tab[j + 1].in = pfd[0];
+		tab[j + 1].in = pfd[0];
 		tab[j + 1].st_pfd_in = pfd[1];
 		tab[j + 1].st_pfd_out = pfd[0];
 	}
