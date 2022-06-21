@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 19:45:41 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/20 19:46:57 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:26:41 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	handle_error(t_symbol *data, char *tmp, char *str)
 	return (0);
 }
 
-char	*free_error(t_symbol *data, int fd)
+char	*free_error(t_symbol *data)
 {
 	free(data);
 	return (0);

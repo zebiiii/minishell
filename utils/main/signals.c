@@ -1,35 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/14 15:40:39 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/21 16:10:52 by mgoudin          ###   ########.fr       */
+/*   Created: 2022/06/21 15:43:05 by mgoudin           #+#    #+#             */
+/*   Updated: 2022/06/21 16:03:35 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_pipe(t_redirect tab[], int j, int size)
+void	sig_handler(int signo)
 {
-	int	pfd[2];
+	if (signo == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+		if (g_global.in_heredoc)
+		{
+			g_global.heredoc = 1;
+			close(g_global.listener);
+		}
+		if (g_global.in_heredoc == 0 && g_global.qlf == 0)
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+	}
+}
 
-	if (pipe(pfd) == -1)
-	{
-		print_error("pipe failed\n");
-		g_global.exit_status = 1;
-		return (0);
-	}
-	tab[j].out = pfd[1];
-	tab[j].lst_pfd_in = pfd[1];
-	tab[j].lst_pfd_out = pfd[0];
-	if (j + 1 < size)
-	{
-		tab[j + 1].in = pfd[0];
-		tab[j + 1].st_pfd_in = pfd[1];
-		tab[j + 1].st_pfd_out = pfd[0];
-	}
-	return (1);
+void	set_signals(void)
+{
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

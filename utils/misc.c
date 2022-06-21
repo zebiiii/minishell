@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:42:03 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/20 19:39:31 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 17:43:11 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,17 @@
 enum s_type	get_type(char *str)
 {
 	enum s_type	type;
-	int			len;
 
-	len = len;
 	type = content;
-	if (!ft_strncmp(str, "|", len))
+	if (!ft_strncmp(str, "|", 1))
 		type = pipe_;
-	if (!ft_strncmp(str, ">", len))
+	if (!ft_strncmp(str, ">", 1))
 		type = redirect_right;
-	if (!ft_strncmp(str, "<", len))
+	if (!ft_strncmp(str, "<", 1))
 		type = redirect_left;
-	if (!ft_strncmp(str, ">>", len))
+	if (!ft_strncmp(str, ">>", 2))
 		type = double_redirect_right;
-	if (!ft_strncmp(str, "<<", len))
+	if (!ft_strncmp(str, "<<", 2))
 		type = double_redirect_left;
 	return (type);
 }

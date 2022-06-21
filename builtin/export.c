@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 16:04:47 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/20 16:10:04 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:57:42 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	export_first_step(char *argv, t_list *lst)
 	i = 0;
 	if (!argv)
 	{
-		print_lst2(lst);
+		ft_print_export(lst);
 		return (1);
 	}
 	else if (argv[0] == '-' && argv[1])

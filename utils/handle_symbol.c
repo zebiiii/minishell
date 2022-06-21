@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 12:05:30 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/20 19:47:08 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:26:53 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*replace_env_link(char *str, t_data env)
 			word = ft_strn(&str[data->i + 1], data->j - 2);
 			tmp = get_env_and_status(word, env);
 			if (handle_error(data, tmp, str))
-				return (free_error(data, 0));
+				return (free_error(data));
 			str = replace_len(str, tmp, data->j);
 			data->i += ft_strlen(tmp) - 1;
 		}
@@ -95,7 +95,7 @@ int	handle_type_pipe(t_list *lst, t_redirect *tab, int j, int len)
 		g_global.exit_status = 2;
 		return (0);
 	}
-	if (!ft_pipe(lst, tab, j, len))
+	if (!ft_pipe(tab, j, len))
 		return (0);
 	return (1);
 }

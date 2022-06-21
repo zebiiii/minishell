@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   manage_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:52:49 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/21 10:59:15 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:40:57 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	manage_builtin_part_1(char **cmd, char **env, t_data *data)
+void	manage_builtin_part_1(char **cmd, t_data *data)
 {
 	if ((ft_strlen(cmd[0]) == 4)
 		&& (ft_strncmp("echo", cmd[0], 4) == 0))
@@ -39,7 +39,7 @@ void	manage_builtin_part_1(char **cmd, char **env, t_data *data)
 	}
 }
 
-void	manage_builtin_part_2(char **cmd, char **env, t_data *data)
+void	manage_builtin_part_2(char **cmd, t_data *data)
 {
 	int	e;
 

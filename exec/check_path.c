@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:52:17 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/21 10:52:23 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:35:39 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_check_path(char **cmd, char **env, t_exec *var)
 	return (access_return);
 }
 
-int	ft_check_cmd(char **cmd, char **env, t_exec *var)
+int	ft_check_cmd(char **cmd)
 {
 	if (cmd[0][0] == '/')
 	{

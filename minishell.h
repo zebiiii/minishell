@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:34 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/21 11:25:29 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:43:15 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ char		**lst_to_argv(t_list **head);
 char		*ft_strjoin(char *s1, char *s2);
 t_redirect	*handle_symbol(t_list **head, int len, t_data env);// ======== UPDATE ====== //
 t_redirect	*handle_symbol_error(t_redirect *tab, int j);// ======== UPDATE ====== //
-char		*free_error(t_symbol *data, int fd);// ======== UPDATE ====== //
+char		*free_error(t_symbol *data);// ======== UPDATE ====== //
 void		ft_closetab(t_redirect *tab, int j);// ======== UPDATE ====== //
 int			handle_error(t_symbol *data, char *tmp, char *str);// ======== UPDATE ====== //
 int			ft_quitcase(t_heredoc *data);// ======== UPDATE ====== //
@@ -219,7 +219,7 @@ char		*replace_len(char *str, char *word, int len);
 char		*ft_itoa(int n);
 int			ft_doubleredirect_in(t_list *lst);
 int			ft_doubleredirect_out(t_list *lst, t_data env); // ======== UPDATE ====== //
-int			ft_pipe(t_list *lst, t_redirect tab[], int j, int size);
+int			ft_pipe(t_redirect tab[], int j, int size);
 int			ft_redirect_in(t_list *lst, t_data env); // ======== UPDATE ====== //
 int			ft_redirect_out(t_list *lst, t_data env); // ======== UPDATE ====== //
 char		*replace_env_link(char *str, t_data env); // ======== UPDATE ====== //
@@ -244,22 +244,22 @@ void		ft_initdata_argv(t_argv *data);
 int			is_space(char *str);
 void		ft_freesplit(char **str);
 void		*ft_memset(void *b, int c, size_t len);
-void		ft_quit_with_msg(char *s1, char *s2, int exit_status, t_exec *var);
-void		ft_msg(char *s1, char *s2, int exit_status, t_exec *var);
+void		ft_quit_with_msg(char *s1, char *s2, int exit_status);
+void		ft_msg(char *s1, char *s2);
 char		*ft_charjoin_lst(char *s1, char c);
-void		ft_dup(t_redirect *tab, t_exec *var);
+void		ft_dup(t_redirect *tab);
 int			grep_path(char **env, t_exec *var);
 int			ft_check_path(char **cmd, char **env, t_exec *var);
 void		ft_putstr_2(char **arg, char *msg);
-int			parce_builtin(char **cmd, char **env, t_data *data);
-int			parce_builtin_2(char **cmd, char **env, t_data *data);
-void		manage_builtin_part_1(char **cmd, char **env, t_data *data);
-void		manage_builtin_part_2(char **cmd, char **env, t_data *data);
-int			ft_chech_builtin(char **cmd, char **env, t_data *data);
-int			ft_chech_builtin_case(char **cmd, char **env, t_exec *var, t_data *data);
+int			parce_builtin(char **cmd);
+int			parce_builtin_2(char **cmd);
+void		manage_builtin_part_1(char **cmd, t_data *data);
+void		manage_builtin_part_2(char **cmd, t_data *data);
+int			ft_chech_builtin(char **cmd, t_data *data);
+int			ft_chech_builtin_case(char **cmd, t_data *data);
 void		exec(char **cmd, char **env, t_exec *var, t_data *data);
-void		exec_case(char **cmd, char **env, t_exec *var, t_data *data);
-int			ft_check_cmd(char **cmd, char **env, t_exec *var);
+void		exec_case(char **cmd, char **env, t_data *data);
+int			ft_check_cmd(char **cmd);
 void		ft_close(t_redirect *tab);
 void		ft_init_space(t_matt *data);
 int			count_char(char *str);
@@ -274,7 +274,7 @@ char		*ft_gnljoin_2(char *s1, char *s2);
 char		*ft_strjoin_f(char *s1, char *s2);
 void		del_2(void*el);
 void		del_3(void*el);
-int			bt_before_fork(char **cmd, t_data *data, t_list *lst, int size);
+int			bt_before_fork(char **cmd, t_data *data, int size);
 void		ft_create_env(t_list **first, t_data *data);
 void		ft_create_export(t_list **first, t_data *data);
 void		ft_check_status(int *status);
@@ -286,7 +286,7 @@ int			ft_check_option_unset(char *argv);
 int			ft_exit_export(char *str, char *argv);
 int			ft_check_first_char(char *argv);
 int			ft_check_equal(char *tmp);
-int			ft_check_content(char *tmp, t_list *lst, t_data *data);
+int			ft_check_content(char *tmp, t_list *lst);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_add_to_export(char *argv, t_list *lst, t_data *data);
 char		*ft_strdup(char *s1);
@@ -305,7 +305,23 @@ int			ft_check_exit(char *arg);
 int			ft_env(t_list *lst);
 void		print_lst(t_list *lst);
 void		print_lst2(t_list *lst);
-
+void		ft_create_export(t_list **first, t_data *data);
+void		ft_create_env(t_list **first, t_data *data);
+void		ft_initglobal(void);
+void		init_env(char **env, t_data *data);
+void		del(void*el);
+void		del_2(void*el);
+void		del_3(void*el);
+int			ft_wait(int *pid);
+int			is_empty(t_list *lst);
+void		ft_check_status(int *status);
+void		ft_dup_env(char **env, t_data *data);
+void		sig_handler(int signo);
+void		set_signals(void);
+int			export_first_step(char *argv, t_list *lst);
+int			ft_print_export(t_list *lst);
+int			ft_check_argument(char *argv, t_list *lst, t_data *data);
+int			ft_check_str(char *argv, t_list *lst, t_data *data);
 
 void		init_var_echo(t_echo *var);
 int			split_ft(char c, t_echo *var);
@@ -317,7 +333,7 @@ void		become(t_data *data);
 void		free_triple(char *str, char *tmp, t_list *current);
 int			analyse_str(char c);
 void		init_var_join(t_join *join);
-void 		ft_check_kg(char **cmd, char **env, t_data *data, t_exec *var);
+void 		ft_check_kg(char **cmd, t_data *data);
 void		init_kg(t_data *data);
 
 

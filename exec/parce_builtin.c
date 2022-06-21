@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parce_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:59:20 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/21 11:00:05 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:42:58 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	parce_builtin(char **cmd, char **env, t_data *data)
+int	parce_builtin(char **cmd)
 {
 	if ((ft_strlen(cmd[0]) == 4)
 		&& (ft_strncmp("echo", cmd[0], 4) == 0))
@@ -36,7 +36,7 @@ int	parce_builtin(char **cmd, char **env, t_data *data)
 		return (0);
 }
 
-int	parce_builtin_2(char **cmd, char **env, t_data *data)
+int	parce_builtin_2(char **cmd)
 {
 	if ((ft_strlen(cmd[0]) == 9)
 		&& (ft_strncmp("/bin/echo", cmd[0], 9) == 0))

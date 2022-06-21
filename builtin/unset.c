@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 23:26:22 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/20 23:31:45 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:10:06 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	ft_unset(char **argv, t_data *data)
 	int	esc;
 
 	i = 0;
+	esc = 0;
 	e = ft_check_option_unset(argv[0]);
 	if (e == 1)
 		return (e);

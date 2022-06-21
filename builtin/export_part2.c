@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export_part2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffiliz <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 16:04:47 by ffiliz            #+#    #+#             */
-/*   Updated: 2022/06/20 16:10:04 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 16:06:44 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_check_content(char *tmp, t_list *lst, t_data *data)
+int	ft_check_content(char *tmp, t_list *lst)
 {
 	t_list	*first;
 	int		len;
@@ -45,7 +45,7 @@ int	ft_add_to_export(char *argv, t_list *lst, t_data *data)
 	tmp = ft_strjoin_f("declare -x ", argv);
 	if (!tmp)
 		return (-1);
-	if (ft_check_content(tmp, lst, data) != 1)
+	if (ft_check_content(tmp, lst) != 1)
 		ft_lstadd_back(data->head_export, ft_lstnew((char *)tmp));
 	else
 	{

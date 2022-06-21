@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/21 15:30:11 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/21 16:33:03 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,13 +52,11 @@ SRCS	= 	main.c \
 			utils/ft_strdup2d.c \
 			utils/ft_getenv.c \
 			utils/ft_freesplit.c \
-			exec/kangourou.c \
-			exec/check_builtin.c \
-			exec/check_path.c \
-			exec/dup_close.c \
-			exec/ft_msg.c \
-			exec/manage_builtin.c \
-			exec/parce_builtin.c \
+			utils/bt.c \
+			utils/main/create.c \
+			utils/main/del.c \
+			utils/main/mainutils.c \
+			utils/main/signals.c \
 			libft/ft_bzero.c \
 			libft/ft_calloc.c \
 			libft/ft_charjoin.c \
@@ -80,7 +78,14 @@ SRCS	= 	main.c \
 			libft/ft_itoa.c \
 			libft/ft_strcmp.c \
 			libft/ft_strdup.c \
-			libft/ft_substr.c
+			libft/ft_substr.c \
+			exec/kangourou.c \
+			exec/check_builtin.c \
+			exec/check_path.c \
+			exec/dup_close.c \
+			exec/ft_msg.c \
+			exec/manage_builtin.c \
+			exec/parce_builtin.c \
 
 OBJS	= ${SRCS:.c=.o}
 
@@ -95,7 +100,7 @@ RM		= rm -f
 CFLAGS = -Wall -Wextra -Werror -g
 
 %.o: %.c 
-	$(CC) -c -o $@ $< $(HEADERS) -g
+	$(CC) -c -o $@ $< $(HEADERS) $(CFLAGS) -g
 
 all: $(NAME)
 

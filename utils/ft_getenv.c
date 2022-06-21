@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 15:45:41 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/20 19:32:36 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 16:27:29 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_freeline(char **line)
 char	*ft_getenv(char *str, t_list *env)
 {
 	char	**line;
-	char	*tmp;
 
 	while (env)
 	{
