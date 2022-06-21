@@ -6,7 +6,7 @@
 #    By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/29 17:58:58 by mgoudin           #+#    #+#              #
-#    Updated: 2022/06/20 19:55:28 by mgoudin          ###   ########.fr        #
+#    Updated: 2022/06/21 15:30:11 by mgoudin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,8 +86,8 @@ OBJS	= ${SRCS:.c=.o}
 
 HEADER	= minishell.h
 
-LIBS	=	-L/Users/ffiliz/.brew/opt/readline/lib -lreadline
-HEADERS	=	-I$(HEADER) -I/Users/ffiliz/.brew/opt/readline/include
+LIBS	=	-L/Users/mgoudin/.brew/opt/readline/lib -lreadline
+HEADERS	=	-I$(HEADER) -I/Users/mgoudin/.brew/opt/readline/include
 
 CC		= gcc
 RM		= rm -f

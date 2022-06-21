@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 13:36:25 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/21 00:31:30 by ffiliz           ###   ########.fr       */
+/*   Updated: 2022/06/21 15:31:25 by mgoudin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_kg(t_data *data)
 
 void	ft_check_kg(char **cmd, char **env, t_data *data, t_exec *var)
 {
-	if (ft_check_cmd(cmd, env, &var) == 1)
+	if (ft_check_cmd(cmd, env, var) == 1)
 		data->cas_kg++;
 	if (parce_builtin(cmd, env, data) == 1
 		|| parce_builtin_2(cmd, env, data) == 1)
