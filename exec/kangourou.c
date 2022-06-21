@@ -42,21 +42,29 @@ void	exec_case(char **cmd, char **env, t_exec *var, t_data *data)
 		ft_quit_with_msg(cmd[0], ": command not found\n", 127, var);
 }
 
+void	init_kg(t_data *data)
+{
+	data->indic_kg = 0;
+	data->cas_kg = 0;
+}
+
+void	ft_check_kg(char **cmd, char **env, t_data *data, t_exec *var)
+{
+	if (ft_check_cmd(cmd, env, &var) == 1)
+		data->cas_kg++;
+	if (parce_builtin(cmd, env, data) == 1
+		|| parce_builtin_2(cmd, env, data) == 1)
+		data->indic_kg++;
+}
+
 int	kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
 {
 	int		pid;
-	int		cas;
-	int		indic;
 	t_exec	var;
 
-	indic = 0;
-	cas = 0;
-	if (ft_check_cmd(cmd, env, &var) == 1)
-		cas++;
-	if (parce_builtin(cmd, env, data) == 1
-		|| parce_builtin_2(cmd, env, data) == 1)
-		indic++;
-	if (grep_path(env, &var) != -1 || indic != 0)
+	init_kg(data);
+	ft_check_kg(cmd, env, data, &var);
+	if (grep_path(env, &var) != -1 || var.indic != 0)
 	{
 		pid = fork();
 		if (pid == -1)
@@ -64,16 +72,13 @@ int	kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
 		if (pid == 0)
 		{
 			ft_dup(tab, &var);
-			if (cas == 1)
+			if (data->cas_kg == 1)
 				exec_case(cmd, env, &var, data);
 			else
 				exec(cmd, env, &var, data);
 		}
 		else
-		{
-			g_global.qlf = 1;
 			ft_close(tab);
-		}
 	}
 	else
 		ft_msg(cmd[0], ": No such file or directory\n", 127, &var);

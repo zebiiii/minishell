@@ -26,6 +26,7 @@ void	ft_dup(t_redirect *tab, t_exec *var)
 
 void	ft_close(t_redirect *tab)
 {
+	g_global.qlf = 1;
 	if (tab->lst_pfd_in != 0)
 		close(tab->lst_pfd_in);
 	if (tab->st_pfd_in != 0)

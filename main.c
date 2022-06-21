@@ -215,15 +215,6 @@ void	ft_dup_env(char **env, t_data *data)
 {
 	data->env_dup = ft_strdup2d(env);
 	data->export_dup = ft_strdup2d(env);
-	/*int i = 0;
-	while (env[i])
-		printf("%s\n", env[i++]);
-	i = 0;
-	printf("\n\n--------------------------\n\n");
-	while (data->export_dup[i])
-		printf("%s\n", data->export_dup[i++]);
-	printf("\n\n--------------------------\n\n");*/
-
 }
 
 void	init_env(char **env, t_data *data)

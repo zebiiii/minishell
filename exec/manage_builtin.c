@@ -14,9 +14,6 @@
 
 void	manage_builtin_part_1(char **cmd, char **env, t_data *data)
 {
-	int	e;
-
-	e = 0;
 	if ((ft_strlen(cmd[0]) == 4)
 		&& (ft_strncmp("echo", cmd[0], 4) == 0))
 		ft_echo(ft_strlen2d(cmd), cmd + 1);

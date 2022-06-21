@@ -55,6 +55,14 @@ typedef struct s_echo
 	int	with_option;
 }	t_echo;
 
+typedef struct s_join
+{
+	size_t	i;
+	size_t	j;
+	int		indic;
+	char	*pt;
+}	t_join;
+
 typedef struct s_redirect
 {
 	int		in;
@@ -70,6 +78,8 @@ typedef struct s_exec
 {
 	int		index_env;
 	int		index_path;
+	int		cas;
+	int		indic;
 	char	**env_path;
 	char	*path;
 	char	*slash_join;
@@ -92,6 +102,8 @@ typedef struct s_data
 	int					j;
 	int					k;
 	int					indic;
+	int					indic_kg;
+	int					cas_kg;
 	char				**array;
 	char				**export_dup;
 	char				**env_dup;
@@ -269,7 +281,7 @@ void		ft_check_status(int *status);
 int			ft_unset(char **argv, t_data *data);
 int			ft_check_unset(char *argv, t_data *data);
 int			ft_del_equal(char *argv, t_data *data, t_list *lst);
-int			ft_del_env(char *argv, t_data *data, t_list *lst);
+int			ft_del_env(char *argv, t_data *data, t_list **lst);
 int			ft_check_option_unset(char *argv);
 int			ft_exit_export(char *str, char *argv);
 int			ft_check_first_char(char *argv);
@@ -304,5 +316,9 @@ int			ft_exit_unset(char *str, char *argv);
 void		become(t_data *data);
 void		free_triple(char *str, char *tmp, t_list *current);
 int			analyse_str(char c);
+void		init_var_join(t_join *join);
+void 		ft_check_kg(char **cmd, char **env, t_data *data, t_exec *var);
+void		init_kg(t_data *data);
+
 
 #endif
