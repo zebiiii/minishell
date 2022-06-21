@@ -51,7 +51,17 @@ SRCS	= 	main.c \
 			utils/ft_strlen2d.c \
 			utils/ft_strdup2d.c \
 			utils/ft_getenv.c \
+			utils/ft_freesplit.c \
 			exec/kangourou.c \
+			exec/check_builtin.c \
+			exec/check_path.c \
+			exec/dup_close.c \
+			exec/ft_msg.c \
+			exec/manage_builtin.c \
+			exec/parce_builtin.c \
+			libft/ft_bzero.c \
+			libft/ft_calloc.c \
+			libft/ft_charjoin.c \
 			libft/ft_lstadd_back.c \
 			libft/ft_lstadd_front.c \
 			libft/ft_lstclear.c \
@@ -61,12 +71,12 @@ SRCS	= 	main.c \
 			libft/ft_lstmap.c \
 			libft/ft_lstnew.c \
 			libft/ft_lstsize.c \
+			libft/ft_split_list.c \
+			libft/ft_memset.c \
 			libft/ft_split.c \
 			libft/ft_strjoin.c \
 			libft/ft_strncmp.c \
 			libft/ft_gnljoin.c \
-			libft/ft_calloc.c \
-			libft/ft_bzero.c \
 			libft/ft_itoa.c \
 			libft/ft_strcmp.c \
 			libft/ft_strdup.c \

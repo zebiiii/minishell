@@ -12,6 +12,27 @@
 
 #include "../minishell.h"
 
+char	*ft_charjoin_lst(char *s1, char c)
+{
+	size_t	i;
+	char	*pt;
+
+	if (!s1)
+		return (NULL);
+	i = 0;
+	pt = malloc(sizeof(char) * ft_strlen(s1) + 1 + 1);
+	if (pt == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		pt[i] = s1[i];
+		i++;
+	}
+	pt[i++] = c;
+	pt[i] = '\0';
+	return (pt);
+}
+
 char	*ft_strjoin_quote(char *s1, char *s2)
 {
 	char	*pt;

@@ -14,10 +14,10 @@
 
 int	ft_del_env(char *argv, t_data *data, t_list *lst)
 {
-	data->i = 0;
+	data->indic = 0;
 	data->current = lst;
 	data->before = data->current;
-	if (lst)
+	if (!lst)
 		return (0);
 	while (data->current)
 	{
@@ -27,11 +27,11 @@ int	ft_del_env(char *argv, t_data *data, t_list *lst)
 					ft_len_equal(data->current->content));
 			if (ft_strcmp(argv, data->tmp) == 0)
 			{
-				if (data->i == 0)
+				if (data->indic == 0)
 					data->before = data->current->next;
 				else
 					data->before->next = data->current->next;
-				free_triple(data);
+				free_triple(data->current->content, data->tmp, data->current);
 				return (1);
 			}
 			free(data->tmp);
@@ -71,11 +71,11 @@ int	ft_check_eq(char *argv, t_data *data)
 			return (ft_exit_unset(": not a valid identifier\n", argv));
 	}
 	tmp = ft_strjoin_f("declare -x ", argv);
-	if (ft_del_equal(tmp, data, data->export_lst) == 1)
+	if (ft_del_env(tmp, data, data->export_lst) == 1)
 	{
 		free(tmp);
 		tmp = ft_strdup(argv);
-		ft_del_equal(tmp, data, data->env_lst);
+		ft_del_env(tmp, data, data->env_lst);
 		free(tmp);
 		return (1);
 	}

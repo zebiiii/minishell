@@ -32,28 +32,27 @@ int	ft_check_option_unset(char *argv)
 	return (0);
 }
 
-void	free_triple(t_data *data)
+void	free_triple(char *str, char *tmp, t_list *current)
 {
-	free(data->current->content);
-	free(data->tmp);
-	free(data->current);
+	free(str);
+	free(tmp);
+	free(current);
 }
 
 void	become(t_data *data)
 {
 	data->before = data->current;
 	data->current = data->current->next;
-	data->i++;
+	data->indic++;
 }
 
-int	ft_del_equal(char *argv, t_data *data, t_list *lst)
+/*int	ft_del_equal(char *argv, t_data *data, t_list *lst)
 {
-	int		i;
 	t_list	*current;
 	t_list	*before;
 	char	*tmp;
 
-	i = 0;
+	data->indic = 0;
 	current = lst;
 	before = current;
 	if (lst)
@@ -66,21 +65,19 @@ int	ft_del_equal(char *argv, t_data *data, t_list *lst)
 						ft_len_equal(current->content));
 				if (ft_strcmp(argv, tmp) == 0)
 				{
-					if (i == 0)
+					if (data->indic == 0)
 						before = current->next;
 					else
 						before->next = current->next;
-					free(current->content);
-					free(current);
-					free(tmp);
+					free_triple(current->content, tmp, current);
 					return (1);
 				}
 				free(tmp);
 			}
 			before = current;
 			current = current->next;
-			i++;
+			data->indic++;
 		}
 	}
 	return (0);
-}
+}*/

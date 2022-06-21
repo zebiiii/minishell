@@ -77,7 +77,7 @@ int	export_first_step(char *argv, t_list *lst)
 	i = 0;
 	if (!argv)
 	{
-		ft_print_export(lst);
+		print_lst2(lst);
 		return (1);
 	}
 	else if (argv[0] == '-' && argv[1])

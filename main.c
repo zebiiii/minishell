@@ -6,7 +6,7 @@
 /*   By: mgoudin <mgoudin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:56:09 by mgoudin           #+#    #+#             */
-/*   Updated: 2022/06/20 20:18:53 by mgoudin          ###   ########.fr       */
+/*   Updated: 2022/06/21 11:55:49 by ffiliz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	print_lst(t_list *lst)
 	}
 }
 
+void	print_lst2(t_list *lst)
+{
+	while (lst)
+	{
+		printf("%s\n", (char *)lst->content);
+		lst = lst->next;
+	}
+}
+
 void	tty_hide_ctrl(void)
 {
 	struct termios	term;
@@ -31,38 +40,40 @@ void	tty_hide_ctrl(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void    print_argv(char **argv)
+void	print_argv(char **argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(argv[i])
+	while (argv[i])
 	{
-		printf("%s ",argv[i]);
+		printf("%s ", argv[i]);
 		i++;
 	}
 	printf("\n");
 }
 
-void del(void*el)
+void	del(void*el)
 {
-	t_cmd *cmd = (t_cmd *)el;
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)el;
 	free(cmd->content);
 	free(el);
 }
 
-void del_2(void*el)
+void	del_2(void*el)
 {
 	if (el)
 		free(el);
 }
 
-void del_3(void*el)
+void	del_3(void*el)
 {
 	return ;
 }
 
-void    sig_handler(int signo)
+void	sig_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -81,58 +92,58 @@ void    sig_handler(int signo)
 	}
 }
 
-void    ft_create_export(t_list **first, t_data *data)
+void	ft_create_export(t_list **first, t_data *data)
 {
-    int i;
-	t_list *list;
+	int		i;
+	t_list	*list;
 
-    i = 0;
-    *first = NULL;
+	i = 0;
+	*first = NULL;
 	while (data->export_dup[i])
 		ft_lstadd_back(first, ft_lstnew(data->env_dup[i++]));
 	i = 0;
 	list = *first;
 	while (list)
 	{
-        list->content = ft_strjoin_f("declare -x ", (char *)list->content);
+		list->content = ft_strjoin_f("declare -x ", (char *)list->content);
 		list = list->next;
 		i++;
 	}
 }
 
-void    ft_create_env(t_list **first, t_data *data)
+void	ft_create_env(t_list **first, t_data *data)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    *first = NULL;
-    while (data->env_dup[i])
-    	ft_lstadd_back(first, ft_lstnew(data->env_dup[i++]));
+	i = 0;
+	*first = NULL;
+	while (data->env_dup[i])
+		ft_lstadd_back(first, ft_lstnew(data->env_dup[i++]));
 	data->lst_size = i;
 }
 
-int    ft_wait(int *pid)
+int	ft_wait(int *pid)
 {
-    int status;
-    int w;
+	int	status;
+	int	w;
 
-    w = 0;
-    status = 0;
-    w = waitpid(*pid, &status, 0);
-    if (WIFSIGNALED(status))
-        g_global.exit_status = 128 + WTERMSIG(status);
-    else if (WIFCONTINUED(status))
-       g_global.exit_status = 128 + WIFEXITED(status);
-    else if (WIFSTOPPED(status))
-        g_global.exit_status = 128 + WSTOPSIG(status);
-    while (wait(NULL) > 0)
-        break ;
-    return (status);
+	w = 0;
+	status = 0;
+	w = waitpid(*pid, &status, 0);
+	if (WIFSIGNALED(status))
+		g_global.exit_status = 128 + WTERMSIG(status);
+	else if (WIFCONTINUED(status))
+		g_global.exit_status = 128 + WIFEXITED(status);
+	else if (WIFSTOPPED(status))
+		g_global.exit_status = 128 + WSTOPSIG(status);
+	while (wait(NULL) > 0)
+		break ;
+	return (status);
 }
 
-int is_empty(t_list *lst)
+int	is_empty(t_list *lst)
 {
-	int type;
+	int	type;
 
 	while (lst)
 	{
@@ -143,29 +154,30 @@ int is_empty(t_list *lst)
 	}
 	return (1);
 }
+
 int	bt_before_fork(char **cmd, t_data *data, t_list *lst, int size)
 {
-	int i;
-	int e;
+	int	i;
+	int	e;
 
 	i = 0;
 	e = 0;
-	if (size == 1 && ft_strncmp(cmd[0], "exit", 4) == 0 
+	if (size == 1 && ft_strncmp(cmd[0], "exit", 4) == 0
 		&& ft_strlen(cmd[0]) == 4)
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_exit_case(cmd + 1);
 	}
-	else if (size == 1 && (ft_strlen(cmd[0]) == 6) && 
-		(ft_strncmp("export", cmd[0], 6) == 0))
-	{	
+	else if (size == 1 && (ft_strlen(cmd[0]) == 6)
+		&& (ft_strncmp("export", cmd[0], 6) == 0))
+	{
 		e = ft_export(cmd + 1, data->export_lst, data);
 		g_global.exit_status = e;
 		g_global.indicateur++;
 	}
-	else if (size == 1 && (ft_strlen(cmd[0]) == 3) && 
-		(ft_strncmp("env", cmd[0], 3) == 0))
-	{	
+	else if (size == 1 && (ft_strlen(cmd[0]) == 3)
+		&& (ft_strncmp("env", cmd[0], 3) == 0))
+	{
 		if (cmd[1])
 		{
 			ft_putstr_fd("Error\nNo arg or option for env.\n", 2);
@@ -179,9 +191,9 @@ int	bt_before_fork(char **cmd, t_data *data, t_list *lst, int size)
 			g_global.indicateur++;
 		}
 	}
-	else if (size == 1 && (ft_strlen(cmd[0]) == 5) && 
-		(ft_strncmp("unset", cmd[0], 5) == 0))
-	{	
+	else if (size == 1 && (ft_strlen(cmd[0]) == 5)
+		&& (ft_strncmp("unset", cmd[0], 5) == 0))
+	{
 		e = ft_unset(cmd + 1, data);
 		g_global.exit_status = e;
 		g_global.indicateur++;
@@ -189,20 +201,29 @@ int	bt_before_fork(char **cmd, t_data *data, t_list *lst, int size)
 	return (0);
 }
 
-void ft_check_status(int *status)
+void	ft_check_status(int *status)
 {
 	if (*status == 65280)
 		*status = 255;
-    else if (*status > 255)
-        *status = *status % 255;
+	else if (*status > 255)
+		*status = *status % 255;
 	if (g_global.indicateur == 0)
-    	g_global.exit_status = *status;
+		g_global.exit_status = *status;
 }
 
 void	ft_dup_env(char **env, t_data *data)
 {
 	data->env_dup = ft_strdup2d(env);
 	data->export_dup = ft_strdup2d(env);
+	/*int i = 0;
+	while (env[i])
+		printf("%s\n", env[i++]);
+	i = 0;
+	printf("\n\n--------------------------\n\n");
+	while (data->export_dup[i])
+		printf("%s\n", data->export_dup[i++]);
+	printf("\n\n--------------------------\n\n");*/
+
 }
 
 void	init_env(char **env, t_data *data)
@@ -212,27 +233,27 @@ void	init_env(char **env, t_data *data)
 	ft_create_export(data->head_export, data);
 }
 
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	t_list	*lst;
-	t_list	**head;
-	t_data	data;
-	t_redirect *tab;
-	int     i;
-	int 	pid;
-	int 	status;
-	char    *res;
-	char 	**cmd;
-	
+	t_list		*lst;
+	t_list		**head;
+	t_data		data;
+	t_redirect	*tab;
+	int			i;
+	int			pid;
+	int			status;
+	char		*res;
+	char		**cmd;
+
 	head = &lst;
 	data.head_env = &data.env_lst;
-	data.head_export = &data.export_lst; 
+	data.head_export = &data.export_lst;
 	status = 0;
 	g_global.exit_status = 0;
 	init_env(env, &data);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-	while(42)
+	while (42)
 	{
 		i = 0;
 		g_global.indicateur = 0;
@@ -248,14 +269,14 @@ int main(int argc, char **argv, char **env)
 			exit(1);
 		}
 		if (ft_strlen(res) < 1)
-			continue;
+			continue ;
 		add_history(res);
 		res = create_space(res);
 		ft_split_list(res, ' ', head);
 		data.size = get_size(head);
-		tab = handle_symbol(head, data.size, data); 
+		tab = handle_symbol(head, data.size, data);
 		if (!tab)
-			continue; 
+			continue ; 
 		set_env(head, data);
 		while (i < data.size)
 		{
@@ -268,15 +289,11 @@ int main(int argc, char **argv, char **env)
 			i++;
 		}
 		unlink(".heredoc");
-        status = ft_wait(&pid);
+		status = ft_wait(&pid);
 		ft_check_status(&status);
 	}
-		ft_lstclear(data.head_export, &del_2);
-		ft_lstclear(data.head_env, &del_3);
-		//system("leaks minishell | grep leaked");
+	ft_lstclear(data.head_export, &del_2);
+	ft_lstclear(data.head_env, &del_3);
+	//system("leaks minishell | grep leaked");
 	return (0);
 }
-
-// LEXER (parsing) -> execution -> pipe/redirection
-
-//test/test/ls -a argument
