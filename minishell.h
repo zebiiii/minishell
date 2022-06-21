@@ -89,12 +89,13 @@ typedef struct s_data
 {
 	struct s_exec		*exec;
 	struct s_redirect	*redir;
-	t_list				*env_lst;		//a free
-	t_list				*export_lst;	//a free
+	t_list				*env_lst;
+	t_list				*export_lst;
 	t_list				*current;
 	t_list				*before;
 	t_list				**head_env;
 	t_list				**head_export;
+	char				**tmp_env;
 	char				*tmp;
 	int					size;
 	int					lst_size;
@@ -107,7 +108,6 @@ typedef struct s_data
 	char				**array;
 	char				**export_dup;
 	char				**env_dup;
-
 }	t_data;
 
 typedef struct s_matt
@@ -172,12 +172,12 @@ typedef struct s_env
 	int	i;
 	int	j;
 	int	k;
-}				t_env; // ======== UPDATE ====== //
+}				t_env;
 
 int			ft_pwd(void);
 int			ft_echo(int argc, char **argv);
 int			ft_check_option(char **argv, t_echo *var);
-int			ft_cd(char **argv);
+int			ft_cd(char **argv, t_data *data);
 char		**ft_split(char const *s, char c);
 int			ft_exit_case(char **status);
 int			ft_putstr_fd(char *str, int fd);
@@ -198,15 +198,15 @@ char		*create_space(char *str);
 int			ft_strncmp(const char *s1, const char *s2, unsigned int n);
 int			is_quote_close(const char *str, char quote);
 char		*ft_strn(char const *str, int lenght);
-void		set_env(t_list **a, t_data data); // ======== UPDATE ====== //
+void		set_env(t_list **a, t_data data);
 char		**lst_to_argv(t_list **head);
 char		*ft_strjoin(char *s1, char *s2);
-t_redirect	*handle_symbol(t_list **head, int len, t_data env);// ======== UPDATE ====== //
-t_redirect	*handle_symbol_error(t_redirect *tab, int j);// ======== UPDATE ====== //
-char		*free_error(t_symbol *data);// ======== UPDATE ====== //
-void		ft_closetab(t_redirect *tab, int j);// ======== UPDATE ====== //
-int			handle_error(t_symbol *data, char *tmp, char *str);// ======== UPDATE ====== //
-int			ft_quitcase(t_heredoc *data);// ======== UPDATE ====== //
+t_redirect	*handle_symbol(t_list **head, int len, t_data env);
+t_redirect	*handle_symbol_error(t_redirect *tab, int j);
+char		*free_error(t_symbol *data);
+void		ft_closetab(t_redirect *tab, int j);
+int			handle_error(t_symbol *data, char *tmp, char *str);
+int			ft_quitcase(t_heredoc *data);
 char		*get_next_line(int fd);
 char		*ft_gnljoin(char *s1, char *s2);
 void		*ft_calloc(size_t count, size_t size);
@@ -218,17 +218,17 @@ int			get_size(t_list **head);
 char		*replace_len(char *str, char *word, int len);
 char		*ft_itoa(int n);
 int			ft_doubleredirect_in(t_list *lst);
-int			ft_doubleredirect_out(t_list *lst, t_data env); // ======== UPDATE ====== //
+int			ft_doubleredirect_out(t_list *lst, t_data env);
 int			ft_pipe(t_redirect tab[], int j, int size);
-int			ft_redirect_in(t_list *lst, t_data env); // ======== UPDATE ====== //
-int			ft_redirect_out(t_list *lst, t_data env); // ======== UPDATE ====== //
-char		*replace_env_link(char *str, t_data env); // ======== UPDATE ====== //
-void		ft_init_env2(t_env *data); // ======== UPDATE ====== //
-void		increment(t_env *data); // ======== UPDATE ====== //
-void		increment_var(t_env *data, int len); // ======== UPDATE ====== //
-int			handle_exit_heredoc(t_heredoc *data);// ======== UPDATE ====== //
-int			end_heredoc(t_heredoc *data);// ======== UPDATE ====== //
-int			free_symbol_heredoc(int fd, t_heredoc *el);// ======== UPDATE ====== //
+int			ft_redirect_in(t_list *lst, t_data env);
+int			ft_redirect_out(t_list *lst, t_data env);
+char		*replace_env_link(char *str, t_data env);
+void		ft_init_env2(t_env *data);
+void		increment(t_env *data);
+void		increment_var(t_env *data, int len);
+int			handle_exit_heredoc(t_heredoc *data);
+int			end_heredoc(t_heredoc *data);
+int			free_symbol_heredoc(int fd, t_heredoc *el);
 char		*ft_strn(char const *str, int lenght);
 enum s_type	get_type(char *str);
 int			handle_quote(t_split *data, char const *str, int type, t_list **a);
@@ -238,8 +238,8 @@ void		ft_initdata(t_heredoc *data);
 int			write_heredoc(char *heredoc, int fd);
 void		init_stdin_stdout(t_redirect *tab, int len);
 void		ft_init_env(t_symbol *data);
-char		*get_env_and_status(char *word, t_data data); // ======== UPDATE ====== //
-char		*ft_getenv(char *str, t_list *env); // ======== UPDATE ====== //
+char		*get_env_and_status(char *word, t_data data);
+char		*ft_getenv(char *str, t_list *env);
 void		ft_initdata_argv(t_argv *data);
 int			is_space(char *str);
 void		ft_freesplit(char **str);
@@ -333,8 +333,13 @@ void		become(t_data *data);
 void		free_triple(char *str, char *tmp, t_list *current);
 int			analyse_str(char c);
 void		init_var_join(t_join *join);
-void 		ft_check_kg(char **cmd, t_data *data);
+void		ft_check_kg(char **cmd, t_data *data);
 void		init_kg(t_data *data);
-
+void		bt_cd(char **cmd, int e, t_data *data);
+char		*ft_get_pwd(t_data *data);
+char		*ft_get_home(t_data *data);
+int			ft_exit_cd(char *str, char *argv);
+int			ft_get_path(t_data *data);
+int			ft_error_cd(char **argv);
 
 #endif

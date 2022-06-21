@@ -36,7 +36,7 @@ t_cmd	*create_content(char *str, int quote, int suite)
 {
 	t_cmd	*cmd;
 
-	cmd = calloc(1, sizeof(t_cmd *));
+	cmd = ft_calloc(1, sizeof(t_cmd *));
 	cmd->content = str;
 	if (quote && !suite)
 		cmd->type = quote;

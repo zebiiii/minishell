@@ -19,7 +19,7 @@ void	manage_builtin_part_1(char **cmd, t_data *data)
 		ft_echo(ft_strlen2d(cmd), cmd + 1);
 	else if ((ft_strlen(cmd[0]) == 2)
 		&& (ft_strncmp("cd", cmd[0], 2) == 0))
-		ft_cd(cmd);
+		ft_cd(cmd, data);
 	else if ((ft_strlen(cmd[0]) == 3)
 		&& (ft_strncmp("pwd", cmd[0], 3) == 0))
 		ft_pwd();

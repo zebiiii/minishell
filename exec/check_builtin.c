@@ -26,7 +26,7 @@ int	ft_chech_builtin_case(char **cmd, t_data *data)
 		ft_echo(ft_strlen2d(cmd), cmd + 1);
 	else if ((ft_strlen(cmd[0]) == 11)
 		&& (ft_strncmp("/usr/bin/cd", cmd[0], 11) == 0))
-		ft_cd(cmd);
+		ft_cd(cmd, data);
 	else if ((ft_strlen(cmd[0]) == 8)
 		&& (ft_strncmp("/bin/pwd", cmd[0], 8) == 0))
 		ft_pwd();

@@ -122,6 +122,6 @@ char	*ft_gnljoin(char *s1, char *s2)
 		j++;
 	}
 	pt[i + j] = '\0';
-	free(s1);
+	//free(s1);
 	return (pt);
 }

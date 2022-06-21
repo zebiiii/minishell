@@ -12,6 +12,23 @@
 
 #include "../minishell.h"
 
+int	ft_get_path(t_data *data)
+{
+	t_list	*first;
+
+	first = data->env_lst;
+	if (first)
+	{
+		while (first)
+		{
+			if (strncmp("PATH=", first->content, 4) == 0)
+				return (1);
+			first = first->next;
+		}
+	}
+	return (0);
+}
+
 int	grep_path(char **env, t_exec *var)
 {
 	var->index_env = 0;

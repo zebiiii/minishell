@@ -88,10 +88,7 @@ char	*get_next_line(int fd)
 	{
 		r = read(fd, buf, 1);
 		if ((r == -1) || (r == 0 && stock && stock[0] == '\0'))
-		{
-			free(stock);
 			return (NULL);
-		}
 		buf[r] = '\0';
 		stock = ft_gnljoin(stock, buf);
 	}

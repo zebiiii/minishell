@@ -18,3 +18,9 @@ int	print_error(char *str)
 	strerror(0);
 	return (0);
 }
+
+int	ft_error_cd(char **argv)
+{
+	ft_exit_cd(" No such file or directory\n", argv[0]);
+	return (1);
+}

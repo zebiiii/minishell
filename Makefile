@@ -91,8 +91,8 @@ OBJS	= ${SRCS:.c=.o}
 
 HEADER	= minishell.h
 
-LIBS	=	-L/Users/mgoudin/.brew/opt/readline/lib -lreadline
-HEADERS	=	-I$(HEADER) -I/Users/mgoudin/.brew/opt/readline/include
+LIBS	=	-L/Users/ffiliz/.brew/opt/readline/lib -lreadline
+HEADERS	=	-I$(HEADER) -I/Users/ffiliz/.brew/opt/readline/include
 
 CC		= gcc
 RM		= rm -f

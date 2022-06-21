@@ -69,5 +69,8 @@ int	bt_before_fork(char **cmd, t_data *data, int size)
 	else if (size == 1 && (ft_strlen(cmd[0]) == 5)
 		&& (ft_strncmp("unset", cmd[0], 5) == 0))
 		bt_unset(cmd, data, e);
+	else if (size == 1 && (ft_strlen(cmd[0]) == 2)
+		&& (ft_strncmp("cd", cmd[0], 2) == 0))
+		bt_cd(cmd, e, data);
 	return (0);
 }

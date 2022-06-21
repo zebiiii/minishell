@@ -65,7 +65,7 @@ int	kangourou(char **cmd, char **env, t_redirect *tab, t_data *data)
 	init_kg(data);
 	ft_check_kg(cmd, data);
 	pid = 0;
-	if (grep_path(env, &var) != -1 || var.indic != 0)
+	if (ft_get_path(data) == 1 || data->indic_kg != 0)
 	{
 		pid = fork();
 		if (pid == -1)

@@ -17,7 +17,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*lst;
 
-	lst = calloc(1, sizeof(t_list *));
+	lst = ft_calloc(1, sizeof(t_list *));
 	if (!lst)
 		return (0);
 	lst->content = content;
