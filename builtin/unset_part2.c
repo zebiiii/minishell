@@ -24,12 +24,16 @@ int	ft_exit_unset(char *str, char *argv)
 
 int	ft_check_option_unset(char *argv)
 {
-	if (argv[0] == '-' && argv[1])
+	if (argv)
 	{
-		ft_putstr_fd("Error\nExport must not contain any options.\n", 2);
-		return (1);
+		if (argv[0] == '-' && argv[1])
+		{
+			ft_putstr_fd("Error\nExport must not contain any options.\n", 2);
+			return (1);
+		}
+		return (0);
 	}
-	return (0);
+	return(0);
 }
 
 void	free_triple(char *str, char *tmp, t_list *current)
